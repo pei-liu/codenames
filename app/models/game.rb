@@ -36,7 +36,10 @@ class Game < ApplicationRecord
       }
     end
 
-    board.shuffle
+    {
+      turn_order: going_first,
+      board: board.shuffle
+    }
   end
 
   private
