@@ -27,3 +27,6 @@ sudo docker run --name codenames-web \
 sudo docker exec -it codenames-web bash
 cat /application/logs/production.log
 ```
+
+# Pushing to Heroku
+https://devcenter.heroku.com/articles/container-registry-and-runtime
