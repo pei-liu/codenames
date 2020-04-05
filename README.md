@@ -30,3 +30,23 @@ cat /application/logs/production.log
 
 # Pushing to Heroku
 https://devcenter.heroku.com/articles/container-registry-and-runtime
+
+```
+# Build the image and push to Container Registry:
+heroku container:push web
+
+# Then release the image to your app:
+heroku container:release web
+
+# Now open the app in your browser:
+heroku open
+```
+
+# Learnings
+* How to Dockerize Rails and deploy to Heroku
+* How to use ActionCable
+* How to set up React in Rails using webpacker
+
+## Tutorialis Used
+* [Set up RoR Project with Reach](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-ruby-on-rails-project-with-a-react-frontend)
+* [Dockerizing Rails](https://iridakos.com/programming/2019/04/07/dockerizing-a-rails-application)
