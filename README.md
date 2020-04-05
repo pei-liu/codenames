@@ -1,4 +1,8 @@
-# Running locally using Docker
+# Running locally
+```
+rails assets:precompile && RAILS_ENV=production bundle exec rails s
+```
+## User Docker
 ```
 # Create Postgres container
 sudo docker run --name codenames-pg \
