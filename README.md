@@ -1,24 +1,29 @@
-# README
+# Running locally using Docker
+```
+# Create Postgres container
+sudo docker run --name codenames-pg \
+            -e POSTGRES_USER=postgres \
+            -e POSTGRES_PASSWORD=postgres \
+            -p 5432:5432 \
+            -d postgres
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# Create Redis container
+sudo docker run --name codenames-redis \
+            -p 6379:6379 \
+            -d redis
 
-Things you may want to cover:
+# Build docker image
+docker build . -t codenames
 
-* Ruby version
+# Create app container
+sudo docker run --name codenames-web \
+            -e DATABASE_USERNAME=postgres \
+            -e DATABASE_PASSWORD=postgres \
+            -e REDIS_URL=redis://172.17.0.1:6379/1 \
+            -p 3000:3000 \
+            codenames
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# Connect to app container to vew logs
+sudo docker exec -it codenames-web bash
+cat /application/logs/production.log
+```
