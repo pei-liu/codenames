@@ -5,14 +5,14 @@ rails assets:precompile && RAILS_ENV=production bundle exec rails s
 ## User Docker
 ```
 # Create Postgres container
-sudo docker run --name codenames-pg \
+docker run --name codenames-pg \
             -e POSTGRES_USER=postgres \
             -e POSTGRES_PASSWORD=postgres \
             -p 5432:5432 \
             -d postgres
 
 # Create Redis container
-sudo docker run --name codenames-redis \
+docker run --name codenames-redis \
             -p 6379:6379 \
             -d redis
 
@@ -20,7 +20,7 @@ sudo docker run --name codenames-redis \
 docker build . -t codenames
 
 # Create app container
-sudo docker run --name codenames-web \
+docker run --name codenames-web \
             -e DATABASE_USERNAME=postgres \
             -e DATABASE_PASSWORD=postgres \
             -e REDIS_URL=redis://172.17.0.1:6379/1 \
