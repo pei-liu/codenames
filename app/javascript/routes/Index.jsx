@@ -8,7 +8,7 @@ export default (
     <Switch>
       <Route path="/" exact component={Lobby} />
       <Route path="/secretlobby" exact component={Lobby} />
-      <Route path="/:gameIdentifier" component={Game} />
+      <Route path="/:gameId" component={Game} />
     </Switch>
   </Router>
 );

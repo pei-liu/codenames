@@ -1,15 +1,47 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import actionCable from 'actioncable';
 
-export default () => (
-  <div className="vw-100 vh-100 primary-color d-flex align-items-center justify-content-center">
-    <div className="jumbotron jumbotron-fluid bg-transparent">
-      <div className="container secondary-color">
-        <h1 className="display-4">Codenames2</h1>
-        <p className="lead">
-          Game
-        </p>
+
+class Lobby extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      gameState: {
+        turnOrder: '', // red or blue
+        boardState: [],
+      },
+    }
+  }
+
+  // getGameData = (id) => {
+  //   fetch(`http://localhost:3000/games/${id}`)
+  //   .then(response => response.json())
+  //   .then(result => {
+  //     debugger
+  //   })
+  // }
+
+  componentDidMount() {
+    this.cable = actionCable.createConsumer('ws://localhost:3000/cable');
+    this.gameChannels = this.cable.subscriptions.create(
+      { channel: "GameChannel", id: this.props.match.params.gameId },
+      {
+        connected: () => { console.log('CONNECTED') },
+        disconnected: () => { console.log('DISCONNECTED') },
+        received: data => { console.log(`RECIEVED`)}
+      }
+    );
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Game</h1>
       </div>
-    </div>
-  </div>
-);
+    );
+  }
+}
+
+export default Lobby;
