@@ -23,7 +23,22 @@ class Lobby extends React.Component {
 
   onSubmit(event) {
     event.preventDefault();
-    this.props.history.push('/' + this.state.identifier);
+    const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrf },
+    };
+
+    fetch(`/${this.state.identifier}`, requestOptions)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.props.history.push('/' + this.state.identifier);
+        },
+        (error) => {
+        }
+      )
   }
 
   render() {
