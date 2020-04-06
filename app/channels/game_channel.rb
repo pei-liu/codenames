@@ -1,7 +1,7 @@
 class GameChannel < ApplicationCable::Channel
   def subscribed
-    puts params[:id]
-    stream_for 'game_channel'
+    @game = Game.find_by(identifier: params[:id])
+    stream_for @game
   end
 
   def load

@@ -54,3 +54,5 @@ heroku open
 ## Tutorialis Used
 * [Set up RoR Project with Reach](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-ruby-on-rails-project-with-a-react-frontend)
 * [Dockerizing Rails](https://iridakos.com/programming/2019/04/07/dockerizing-a-rails-application)
+* [React and ActionCable](https://dev.to/christiankastner/react-and-actioncable-1gbh)
+* [Another React and ActionCable](https://medium.com/javascript-in-plain-english/integrating-actioncable-with-react-9f946b61556e)
