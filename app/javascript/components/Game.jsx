@@ -8,11 +8,14 @@ class Lobby extends React.Component {
     super(props);
 
     this.state = {
+      role: 'player', // valid: [player, spymaster]
       gameState: {
-        turn_order: '', // red or blue
+        turn_order: '', // valid: [red, blue]
         board: [],
       },
     }
+
+    this.onRoleToggleChange = this.onRoleToggleChange.bind(this);
   }
 
   // getGameData = (id) => {
@@ -39,7 +42,7 @@ class Lobby extends React.Component {
   setGameState() {
     // gameState available (when redirecting from the lobby)
     const { gameState } = this.props.location
-    if (gameState !== undefined) { 
+    if (gameState !== undefined) {
       this.setState({ gameState });
     }
 
@@ -48,7 +51,7 @@ class Lobby extends React.Component {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     };
-    
+
     fetch(`/api/${this.props.match.params.gameId}`, requestOptions)
       .then(res => res.json())
       .then(
@@ -66,7 +69,20 @@ class Lobby extends React.Component {
     console.log('Next Turn Btn Clicked!');
   }
 
+  onNewGameBtnClick() {
+    console.log('New Game Btn Clicked');
+  }
+
+  onRoleToggleChange(event) {
+    event.preventDefault();
+    console.log('onRoleToggleChange: ', event.target.value)
+    this.setState({ role: event.target.value })
+  }
+
   render() {
+    let roleTogglePlayerClass = this.state.role === 'player' ? 'active' : '';
+    let roleToggleSpymasterClass = this.state.role === 'spymaster' ? 'active' : '';
+
     return (
       <div id='game-page-container'>
         <div id ='top-controls'>
@@ -83,9 +99,38 @@ class Lobby extends React.Component {
         <Board
           boardState={this.state.gameState.board}
         />
-        <div id='bottom-controlls'>
+        <div id='bottom-controls'>
+          <div id='role-toggle-group' className="btn-group btn-group-toggle">
+            <label className={`btn btn-secondary ${roleTogglePlayerClass}`}>
+              <input
+                type="radio"
+                name="role"
+                value="player"
+                checked={this.state.role === 'player'}
+                onChange={this.onRoleToggleChange}
+                className="form-check-input"
+              /> Player
+            </label>
+            <label className={`btn btn-secondary ${roleToggleSpymasterClass}`}>
+              <input
+                type="radio"
+                name="role"
+                value="spymaster"
+                checked={this.state.role === 'spymaster'}
+                onChange={this.onRoleToggleChange}
+                className="form-check-input"
+              /> Spymaster
+            </label>
+          </div>
+          <button
+            onClick={this.onNewGameBtnClick}
+            type="button"
+            id="new-game-btn"
+            className="btn btn-primary"
+          >
+            New Game
+          </button>
         </div>
-
       </div>
     );
   }
