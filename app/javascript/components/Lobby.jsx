@@ -34,9 +34,14 @@ class Lobby extends React.Component {
       .then(res => res.json())
       .then(
         (result) => {
-          this.props.history.push('/' + this.state.identifier);
+          this.props.history.push({
+            pathname: `/${this.state.identifier}`,
+            gameState: { gameState: result.state }
+          });
         },
         (error) => {
+          console.log(error);
+          // TO DO handle error
         }
       )
   }

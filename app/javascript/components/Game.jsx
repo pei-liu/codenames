@@ -9,8 +9,8 @@ class Lobby extends React.Component {
 
     this.state = {
       gameState: {
-        turnOrder: '', // red or blue
-        boardState: [],
+        turn_order: '', // red or blue
+        board: [],
       },
     }
   }
@@ -24,6 +24,7 @@ class Lobby extends React.Component {
   // }
 
   componentDidMount() {
+    this.setGameState();
     this.cable = actionCable.createConsumer('ws://localhost:3000/cable');
     this.gameChannels = this.cable.subscriptions.create(
       { channel: "GameChannel", id: this.props.match.params.gameId },
@@ -35,10 +36,39 @@ class Lobby extends React.Component {
     );
   }
 
+  setGameState() {
+    // gameState available (when redirecting from the lobby)
+    const { gameState } = this.props.location
+    if (gameState !== undefined) { 
+      this.setState({ gameState });
+    }
+
+    // gameState NOT available (when visiting link directly)
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    };
+    
+    fetch(`/api/${this.props.match.params.gameId}`, requestOptions)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({ gameState: result.state });
+        },
+        (error) => {
+          console.log(error);
+          // TO DO handle error (esp. 404)
+        }
+      )
+
+    
+  }
+
   render() {
     return (
       <div>
         <h1>Game</h1>
+        <p>{this.state.gameState.turn_order}</p>
       </div>
     );
   }
