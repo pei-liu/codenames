@@ -62,10 +62,23 @@ class Lobby extends React.Component {
       )
   }
 
+  onNextTurnBtnClick() {
+    console.log('Next Turn Btn Clicked!');
+  }
+
   render() {
     return (
       <div id='game-page-container'>
         <div id ='top-controls'>
+          <span id='score-tracker'>9-5</span>
+          <button
+            onClick={this.onNextTurnBtnClick}
+            type="button"
+            id="next-turn-btn"
+            className="btn btn-primary"
+          >
+            End Red's Turn
+          </button>
         </div>
         <Board
           boardState={this.state.gameState.board}
