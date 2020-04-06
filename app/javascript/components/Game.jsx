@@ -1,6 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import actionCable from 'actioncable';
+import Board from "./Board";
 
 
 class Lobby extends React.Component {
@@ -60,15 +60,19 @@ class Lobby extends React.Component {
           // TO DO handle error (esp. 404)
         }
       )
-
-    
   }
 
   render() {
     return (
-      <div>
-        <h1>Game</h1>
-        <p>{this.state.gameState.turn_order}</p>
+      <div id='game-page-container'>
+        <div id ='top-controls'>
+        </div>
+        <Board
+          boardState={this.state.gameState.board}
+        />
+        <div id='bottom-controlls'>
+        </div>
+
       </div>
     );
   }
