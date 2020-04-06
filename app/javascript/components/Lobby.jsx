@@ -30,7 +30,7 @@ class Lobby extends React.Component {
       headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrf },
     };
 
-    fetch(`/${this.state.identifier}`, requestOptions)
+    fetch(`/api/${this.state.identifier}`, requestOptions)
       .then(res => res.json())
       .then(
         (result) => {
