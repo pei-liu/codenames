@@ -89,10 +89,12 @@ class Game extends React.Component {
   }
 
   setBackgroundColor() {
+    const redColor = '#fab1a0';
+    const blueColor = '#74b9ff';
     if (this.state.gameState.turn_order == 'red') {
-      $('body').css({ backgroundColor: 'red' })
+      $('body').css({ backgroundColor: redColor })
     } else {
-      $('body').css({ backgroundColor: 'blue' })
+      $('body').css({ backgroundColor: blueColor })
     }
   }
 
@@ -115,6 +117,7 @@ class Game extends React.Component {
         </div>
         <Board
           boardState={this.state.gameState.board}
+          role={this.state.role}
         />
         <div id='bottom-controls'>
           <div id='role-toggle-group' className="btn-group btn-group-toggle">

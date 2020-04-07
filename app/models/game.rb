@@ -5,8 +5,8 @@ class Game < ApplicationRecord
   ASSASSIN = 'assassin'
 
   validates :identifier, presence: true, uniqueness: true
-  validates :status, 
-    presence: true,  
+  validates :status,
+    presence: true,
     inclusion: { in: %w(active inactive), message: "%{value} is not a valid status" }
   validates :state, presence: true
 
@@ -60,7 +60,7 @@ class Game < ApplicationRecord
 
     cards
   end
-  
+
   def self.load_deck(deck_name)
     path = Rails.root.join("app/assets/decks/#{deck_name}.txt")
 

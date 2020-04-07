@@ -12,4 +12,58 @@
       margin-left: 20px;
     }
   }
+
+  #board-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-content: stretch;
+
+    .card-container {
+      flex: 0 1 calc(20% - 10px); // - 10px to count for the 5px of margin on either side
+      text-align: center;
+      border-radius: 10px;
+      border-style: inset;
+      margin: 5px;
+      &:hover {
+        cursor: pointer;
+      }
+
+      .selected {
+        .red {
+          background-color: red;
+          color: red;
+        }
+
+        .blue {
+          background-color: blue;
+          color: blue;
+        }
+
+        .neutral {
+          background-color: beige;
+          color: beige;
+        }
+
+        .assassin {
+          background-color: black;
+        }
+      }
+
+      .spymaster {
+        .red {
+          color: red;
+        }
+
+        .blue {
+          color: blue;
+        }
+
+        .assassin {
+          color: white;
+          background-color: black;
+        }
+      }
+    }
+  }
 }

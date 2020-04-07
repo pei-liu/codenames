@@ -1,4 +1,5 @@
 import React from "react";
+import Card from "./Card";
 
 class Board extends React.Component {
   constructor(props) {
@@ -6,10 +7,21 @@ class Board extends React.Component {
   }
 
   render() {
+    const cards = this.props.boardState.map((card, key) => {
+      const { type, title, is_selected } = card
+      return (
+        <Card
+          type={type}
+          title={title}
+          isSelected={is_selected}
+          key={key}
+          role={this.props.role}
+        />
+      )
+    });
     return (
-      <div>
-        <p>Board Component</p>
-        <p>{this.props.turn_order}</p>
+      <div id="board-container">
+        {cards}
       </div>
     );
   }
