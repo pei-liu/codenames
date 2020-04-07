@@ -19,6 +19,7 @@ class Game extends React.Component {
 
     this.onRoleToggleChange = this.onRoleToggleChange.bind(this);
     this.onNextTurnBtnClick = this.onNextTurnBtnClick.bind(this);
+    this.onCardSelect = this.onCardSelect.bind(this);
   }
 
   // getGameData = (id) => {
@@ -74,6 +75,10 @@ class Game extends React.Component {
       )
   }
 
+  onCardSelect(index) {
+    console.log(this.state.gameState.board[index].title)
+  }
+
   onNextTurnBtnClick() {
     console.log('Next Turn Btn Clicked!');
   }
@@ -118,6 +123,7 @@ class Game extends React.Component {
         <Board
           boardState={this.state.gameState.board}
           role={this.state.role}
+          onCardSelect={this.onCardSelect}
         />
         <div id='bottom-controls'>
           <div id='role-toggle-group' className="btn-group btn-group-toggle">
