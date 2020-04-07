@@ -3,4 +3,13 @@
     display: flex;
     justify-content: space-between;
   }
+
+  #bottom-controls {
+    display: flex;
+    justify-content: flex-end;
+
+    #new-game-btn {
+      margin-left: 20px;
+    }
+  }
 }

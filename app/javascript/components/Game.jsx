@@ -1,9 +1,11 @@
 import React from "react";
+import $ from "jquery";
+import _ from "lodash";
 import actionCable from 'actioncable';
 import Board from "./Board";
 
 
-class Lobby extends React.Component {
+class Game extends React.Component {
   constructor(props) {
     super(props);
 
@@ -16,6 +18,7 @@ class Lobby extends React.Component {
     }
 
     this.onRoleToggleChange = this.onRoleToggleChange.bind(this);
+    this.onNextTurnBtnClick = this.onNextTurnBtnClick.bind(this);
   }
 
   // getGameData = (id) => {
@@ -37,6 +40,12 @@ class Lobby extends React.Component {
         received: data => { console.log(`RECIEVED`)}
       }
     );
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.state.gameState.turn_order !== prevState.gameState.turn_order) {
+      this.setBackgroundColor();
+    }
   }
 
   setGameState() {
@@ -77,6 +86,14 @@ class Lobby extends React.Component {
     event.preventDefault();
     console.log('onRoleToggleChange: ', event.target.value)
     this.setState({ role: event.target.value })
+  }
+
+  setBackgroundColor() {
+    if (this.state.gameState.turn_order == 'red') {
+      $('body').css({ backgroundColor: 'red' })
+    } else {
+      $('body').css({ backgroundColor: 'blue' })
+    }
   }
 
   render() {
@@ -136,4 +153,4 @@ class Lobby extends React.Component {
   }
 }
 
-export default Lobby;
+export default Game;
