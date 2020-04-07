@@ -7,7 +7,9 @@ class Card extends React.Component {
   }
 
   onCardSelect() {
-    this.props.onCardSelect(this.props.index);
+    if(!this.props.isSelected) {
+      this.props.onCardSelect(this.props.index);
+    }
   }
 
   render() {

@@ -22,23 +22,15 @@ class Game extends React.Component {
     this.onCardSelect = this.onCardSelect.bind(this);
   }
 
-  // getGameData = (id) => {
-  //   fetch(`http://localhost:3000/games/${id}`)
-  //   .then(response => response.json())
-  //   .then(result => {
-  //     debugger
-  //   })
-  // }
-
   componentDidMount() {
     this.setGameState();
     this.cable = actionCable.createConsumer('ws://localhost:3000/cable');
-    this.gameChannels = this.cable.subscriptions.create(
+    this.gameChannel = this.cable.subscriptions.create(
       { channel: "GameChannel", id: this.props.match.params.gameId },
       {
         connected: () => { console.log('CONNECTED') },
         disconnected: () => { console.log('DISCONNECTED') },
-        received: data => { console.log(`RECIEVED`)}
+        received: newGameState => { this.setState({ gameState: newGameState }); }
       }
     );
   }
@@ -77,7 +69,40 @@ class Game extends React.Component {
   }
 
   onCardSelect(index) {
-    console.log(this.state.gameState.board[index].title)
+    const selectedCard = this.state.gameState.board[index];
+    let newGameState = _.cloneDeep(this.state.gameState);
+
+    if(selectedCard.type === 'assassin') {
+      this.handleAssassination();
+      return;
+    }
+
+    if(selectedCard.type !== this.currentTurnOrder() || selectedCard.type === 'neutral') {
+      newGameState.turn_order = this.notCurrentTurnOrder();
+    }
+
+    newGameState.board[index].is_selected = true
+
+    this.setState({
+      gameState: newGameState
+    });
+
+    this.gameChannel.send({
+      id: this.props.match.params.gameId,
+      new_state: newGameState
+    });
+  }
+
+  currentTurnOrder() {
+    return this.state.gameState.turn_order;
+  }
+
+  notCurrentTurnOrder() {
+    return this.state.gameState.turn_order === 'red' ? 'blue' : 'red';
+  }
+
+  handleAssassination() {
+    console.log(`Handle Assassination`)
   }
 
   onNextTurnBtnClick() {
