@@ -36,7 +36,7 @@ class Lobby extends React.Component {
         (result) => {
           this.props.history.push({
             pathname: `/${this.state.identifier}`,
-            gameState: { gameState: result.state }
+            gameState: result.state
           });
         },
         (error) => {
@@ -62,13 +62,13 @@ class Lobby extends React.Component {
             </p>
             <form onSubmit={this.onSubmit} className="text-center">
               <div className="form-group">
-                <input 
-                  type="text" 
-                  className="form-control" 
-                  id="identifierFormInput" 
-                  placeholder="Enter identifer" 
+                <input
+                  type="text"
+                  className="form-control"
+                  id="identifierFormInput"
+                  placeholder="Enter identifer"
                   value={this.state.value}
-                  onChange={this.onInputChange} 
+                  onChange={this.onInputChange}
                 />
               </div>
               <input type="submit" className="btn btn-primary" value="Submit" />

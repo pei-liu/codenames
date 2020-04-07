@@ -54,6 +54,7 @@ class Game extends React.Component {
     const { gameState } = this.props.location
     if (gameState !== undefined) {
       this.setState({ gameState });
+      return
     }
 
     // gameState NOT available (when visiting link directly)
