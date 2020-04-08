@@ -17,9 +17,9 @@ class Card extends React.Component {
     const roleClass = this.props.role;
     return (
       <div className='card-container' onClick={this.onCardSelect}>
-        <div className={`${selectedClass} ${roleClass}`}>
-          <div className={this.props.type}>
-            <span>{this.props.title}</span>
+        <div className={`card-sub-container ${selectedClass} ${roleClass}`}>
+          <div className={`card-text-container ${this.props.type}`}>
+            <span className='card-text'>{this.props.title}</span>
           </div>
         </div>
       </div>

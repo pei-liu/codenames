@@ -1,4 +1,8 @@
 #game-page-container {
+  min-width: 700px;
+  margin-left: 20px;
+  margin-right: 20px;
+
   #top-controls {
     display: flex;
     justify-content: space-between;
@@ -18,13 +22,28 @@
     flex-flow: row wrap;
     justify-content: space-between;
     align-content: stretch;
+    height: 75vh;
 
     .card-container {
       flex: 0 1 calc(20% - 10px); // - 10px to count for the 5px of margin on either side
       text-align: center;
+      border-style: solid;
+      border-width: 2px;
       border-radius: 10px;
-      border-style: inset;
       margin: 5px;
+      overflow: hidden;
+      background-color: white;
+
+      .card-sub-container {
+        height: 100%;
+        .card-text-container {
+          height: 100%;
+          padding: 30px 0; // vertically center text
+          .card-text {
+            font-size: 18px;
+          }
+        }
+      }
 
       .selected {
         .red {
