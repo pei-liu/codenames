@@ -7,7 +7,7 @@ class Card extends React.Component {
   }
 
   onCardSelect() {
-    if(!this.props.isSelected) {
+    if(!this.props.isSelected && this.props.role === 'player') {
       this.props.onCardSelect(this.props.index);
     }
   }

@@ -25,9 +25,6 @@
       border-radius: 10px;
       border-style: inset;
       margin: 5px;
-      &:hover {
-        cursor: pointer;
-      }
 
       .selected {
         .red {
@@ -50,7 +47,16 @@
         }
       }
 
+      .player {
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
       .spymaster {
+        &:hover {
+          cursor: default
+        }
         .red {
           color: red;
         }
