@@ -136,6 +136,15 @@ class Game extends React.Component {
     }
   }
 
+  remainingCards(teamColor) {
+    let remaining = 0;
+    this.state.gameState.board.forEach((card) => {
+      if(card.type === teamColor && !card.is_selected) { ++remaining; }
+    });
+
+    return remaining;
+  }
+
   render() {
     let roleTogglePlayerClass = this.state.role === 'player' ? 'active' : '';
     let roleToggleSpymasterClass = this.state.role === 'spymaster' ? 'active' : '';
@@ -145,7 +154,7 @@ class Game extends React.Component {
     return (
       <div id='game-page-container'>
         <div id ='top-controls'>
-          <span id='score-tracker'>9-5</span>
+          <span id='score-tracker'>{this.remainingCards('red')}-{this.remainingCards('blue')}</span>
           <button
             onClick={this.onEndTurnBtnClick}
             type="button"
