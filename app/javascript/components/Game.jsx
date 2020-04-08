@@ -24,7 +24,8 @@ class Game extends React.Component {
 
   componentDidMount() {
     this.setGameState();
-    this.cable = actionCable.createConsumer('ws://localhost:3000/cable');
+    const webSocketUrl = $('#web-socket-url').textContent
+    this.cable = actionCable.createConsumer(webSocketUrl);
     this.gameChannel = this.cable.subscriptions.create(
       { channel: "GameChannel", id: this.props.match.params.gameId },
       {
