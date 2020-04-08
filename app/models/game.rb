@@ -42,6 +42,10 @@ class Game < ApplicationRecord
     }
   end
 
+  def set_new_board
+    update(status: "active", state: self.class.new_board)
+  end
+
   private
 
   # returns Array of 25 random/shuffled cards

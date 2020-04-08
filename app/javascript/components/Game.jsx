@@ -19,6 +19,7 @@ class Game extends React.Component {
 
     this.onRoleToggleChange = this.onRoleToggleChange.bind(this);
     this.onEndTurnBtnClick = this.onEndTurnBtnClick.bind(this);
+    this.onNewGameBtnClick = this.onNewGameBtnClick.bind(this);
     this.onCardSelect = this.onCardSelect.bind(this);
   }
 
@@ -31,7 +32,7 @@ class Game extends React.Component {
       {
         connected: () => { console.log('CONNECTED') },
         disconnected: () => { console.log('DISCONNECTED') },
-        received: newGameState => { this.setState({ gameState: newGameState }); }
+        received: newGameState => { this.setState({ gameState: newGameState }); },
       }
     );
   }
@@ -93,7 +94,6 @@ class Game extends React.Component {
     });
 
     this.gameChannel.send({
-      id: this.props.match.params.gameId,
       new_state: newState
     });
   }
@@ -117,7 +117,7 @@ class Game extends React.Component {
   }
 
   onNewGameBtnClick() {
-    console.log('New Game Btn Clicked');
+    this.gameChannel.send({ msg: 'newGame' });
   }
 
   onRoleToggleChange(event) {

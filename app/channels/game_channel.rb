@@ -4,7 +4,16 @@ class GameChannel < ApplicationCable::Channel
   end
 
   def receive(data)
-    ActionCable.server.broadcast("game_channel_#{params[:id]}", data['new_state'])
+    game = Game.find_by(identifier: params[:id])
+
+    # TO DO: Figure out how to have a separate method to handle new games vs board updates
+    if data['msg'] == 'newGame'
+      game.set_new_board
+    else
+      game.update(state: data['new_state'])
+    end
+
+    ActionCable.server.broadcast("game_channel_#{params[:id]}", game.state)
   end
 
   def unsubscribed
