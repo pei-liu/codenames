@@ -1,8 +1,18 @@
-# Running locally
+# Setup
+TO DO
+- install redis
+- bi
+- yarn
+## Run Locally
 ```
+# dev env
+rails s
+
+# production env
+redis-server
 rails assets:precompile && RAILS_ENV=production bundle exec rails s
 ```
-## User Docker
+## Using Docker Locally
 ```
 # Create Postgres container
 docker run --name codenames-pg \
@@ -37,6 +47,7 @@ https://devcenter.heroku.com/articles/container-registry-and-runtime
 
 ```
 # Build the image and push to Container Registry:
+heroku container:login
 heroku container:push web
 
 # Then release the image to your app:
@@ -45,6 +56,8 @@ heroku container:release web
 # Now open the app in your browser:
 heroku open
 ```
+
+Note: I can't figure out how to get `heroku run rails c` to work with Docker. If you need to access the rails console, first deploy to Heroku using Git rather than Docker.
 
 # Learnings
 * How to Dockerize Rails and deploy to Heroku
@@ -56,3 +69,4 @@ heroku open
 * [Dockerizing Rails](https://iridakos.com/programming/2019/04/07/dockerizing-a-rails-application)
 * [React and ActionCable](https://dev.to/christiankastner/react-and-actioncable-1gbh)
 * [Another React and ActionCable](https://medium.com/javascript-in-plain-english/integrating-actioncable-with-react-9f946b61556e)
+* [Deploying ActionCable to Heroku](https://willschenk.com/articles/2016/deploying-actioncable-on-heroku/)
