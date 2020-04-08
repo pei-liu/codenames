@@ -43,7 +43,8 @@ class Game < ApplicationRecord
   end
 
   def set_new_board
-    update(status: "active", state: self.class.new_board)
+    turn_order = went_first == RED ? BLUE : RED
+    update(status: "active", state: self.class.new_board(turn_order))
   end
 
   private
@@ -71,5 +72,10 @@ class Game < ApplicationRecord
     return unless deck_name && File.exist?(path)
 
     File.read(path).split("\n").map(&:upcase)
+  end
+
+  def went_first
+    red_card_count = state['board'].count{ |c| c['type'] === RED }
+    red_card_count === 9 ? RED : BLUE
   end
 end
