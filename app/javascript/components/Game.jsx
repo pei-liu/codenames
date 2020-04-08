@@ -18,7 +18,7 @@ class Game extends React.Component {
     }
 
     this.onRoleToggleChange = this.onRoleToggleChange.bind(this);
-    this.onNextTurnBtnClick = this.onNextTurnBtnClick.bind(this);
+    this.onEndTurnBtnClick = this.onEndTurnBtnClick.bind(this);
     this.onCardSelect = this.onCardSelect.bind(this);
   }
 
@@ -84,13 +84,17 @@ class Game extends React.Component {
 
     newGameState.board[index].is_selected = true
 
+    this.broadcastNewState(newGameState);
+  }
+
+  broadcastNewState(newState) {
     this.setState({
-      gameState: newGameState
+      gameState: newState
     });
 
     this.gameChannel.send({
       id: this.props.match.params.gameId,
-      new_state: newGameState
+      new_state: newState
     });
   }
 
@@ -106,8 +110,10 @@ class Game extends React.Component {
     console.log(`Handle Assassination`)
   }
 
-  onNextTurnBtnClick() {
-    console.log('Next Turn Btn Clicked!');
+  onEndTurnBtnClick() {
+    let newGameState = _.cloneDeep(this.state.gameState);
+    newGameState.turn_order = this.notCurrentTurnOrder();
+    this.broadcastNewState(newGameState);
   }
 
   onNewGameBtnClick() {
@@ -134,17 +140,19 @@ class Game extends React.Component {
     let roleTogglePlayerClass = this.state.role === 'player' ? 'active' : '';
     let roleToggleSpymasterClass = this.state.role === 'spymaster' ? 'active' : '';
 
+    const endTurnBtnText = this.state.gameState.turn_order === 'red' ? "End Red's Turn" : "End Blue's Turn";
+
     return (
       <div id='game-page-container'>
         <div id ='top-controls'>
           <span id='score-tracker'>9-5</span>
           <button
-            onClick={this.onNextTurnBtnClick}
+            onClick={this.onEndTurnBtnClick}
             type="button"
             id="next-turn-btn"
             className="btn btn-primary"
           >
-            End Red's Turn
+            {endTurnBtnText}
           </button>
         </div>
         <Board
