@@ -72,6 +72,8 @@ class Game extends React.Component {
   }
 
   onCardSelect(index) {
+    if(this.gameWinner()) { return; }
+
     const selectedCard = this.state.gameState.board[index];
     let newGameState = _.cloneDeep(this.state.gameState);
 
@@ -107,6 +109,8 @@ class Game extends React.Component {
   }
 
   onEndTurnBtnClick() {
+    if (this.gameWinner()) { return; }
+
     let newGameState = _.cloneDeep(this.state.gameState);
     newGameState.turn_order = this.notCurrentTurnOrder();
     this.broadcastNewState(newGameState);

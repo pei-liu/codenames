@@ -2,6 +2,10 @@ import React from "react";
 
 class ScoreTracker extends React.Component {
   renderTallies(count) {
+    if(count <= 0) {
+      return <div>: )</div>
+    }
+
     const redTallies = [];
 
     for (let i = 0; i < count; ++i) {
