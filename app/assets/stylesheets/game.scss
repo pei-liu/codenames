@@ -125,12 +125,23 @@ $card-border-color: #33312F;
       .player {
         &:hover {
           cursor: pointer;
+          .card-text-container {
+            color: $assassin-card-color;
+          }
+        }
+      }
+
+      .spymaster.selected {
+        &:hover {
+          .card-text-container {
+            color: $assassin-card-color;
+          }
         }
       }
 
       .spymaster {
         &:hover {
-          cursor: default
+          cursor: default;
         }
         .red {
           color: $red-card-color;
