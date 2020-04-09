@@ -40,8 +40,10 @@ class Game extends React.Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.state.gameState.turn_order !== prevState.gameState.turn_order) {
-      this.setBackgroundColor();
+      this.setTurnOrderBgColor();
     }
+
+    this.setWinnerBgColor();
   }
 
   setGameState() {
@@ -104,10 +106,6 @@ class Game extends React.Component {
     return this.state.gameState.turn_order === 'red' ? 'blue' : 'red';
   }
 
-  handleAssassination() {
-    console.log(`Handle Assassination`)
-  }
-
   onEndTurnBtnClick() {
     if (this.gameWinner()) { return; }
 
@@ -126,14 +124,27 @@ class Game extends React.Component {
     this.setState({ role: event.target.value })
   }
 
-  setBackgroundColor() {
+  setTurnOrderBgColor() {
     // TO DO: Update className instead of css colors
     const redColor = '#DBAFAF';
     const blueColor = '#B7C9E5';
     if (this.state.gameState.turn_order == 'red') {
-      $('body').css({ backgroundColor: redColor })
+      $('body').css({ backgroundColor: redColor });
     } else {
-      $('body').css({ backgroundColor: blueColor })
+      $('body').css({ backgroundColor: blueColor });
+    }
+  }
+
+  setWinnerBgColor() {
+    const redColor = '#DBAFAF';
+    const blueColor = '#B7C9E5';
+
+    if (this.gameWinner() === 'red') {
+      $('body').css({ backgroundColor: redColor });
+    } else if(this.gameWinner() === 'blue') {
+      $('body').css({ backgroundColor: blueColor });
+    } else {
+      // do nothing
     }
   }
 
@@ -168,12 +179,20 @@ class Game extends React.Component {
 
     const endTurnBtnText = this.state.gameState.turn_order === 'red' ? "End Red's Turn" : "End Blue's Turn";
 
-    console.log('WINNER', this.gameWinner())
+    let middleMsg = '';
+    if(this.gameWinner() === 'red') {
+      middleMsg = 'Red Wins!';
+    } else if(this.gameWinner() === 'blue') {
+      middleMsg = 'Blue Wins!';
+    }
 
     return (
       <div id='game-page-container'>
-        <div id ='top-controls'>
+        <div id='top-controls'>
           <ScoreTracker redScore={this.remainingCards('red')} blueScore={this.remainingCards('blue')} />
+          <div id='middle-msg'>
+            {middleMsg}
+          </div>
           <button
             onClick={this.onEndTurnBtnClick}
             type="button"

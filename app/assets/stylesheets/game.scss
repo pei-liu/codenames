@@ -18,7 +18,7 @@ $card-border-color: #33312F;
     margin-right: 10px;
 
     #score-tracker-container {
-      width: 300px;
+      width: 180px;
 
       .red-tally-container,
       .blue-tally-container {
@@ -43,6 +43,11 @@ $card-border-color: #33312F;
       .blue-tally-container .tally {
         background-color: $blue-card-color;
       }
+    }
+
+    #middle-msg {
+      font-family: monospace;
+      font-size: 25px
     }
   }
 
