@@ -122,8 +122,9 @@ class Game extends React.Component {
   }
 
   setBackgroundColor() {
-    const redColor = '#fab1a0';
-    const blueColor = '#74b9ff';
+    // TO DO: Update className instead of css colors
+    const redColor = '#DBAFAF';
+    const blueColor = '#B7C9E5';
     if (this.state.gameState.turn_order == 'red') {
       $('body').css({ backgroundColor: redColor })
     } else {
@@ -172,7 +173,7 @@ class Game extends React.Component {
             onClick={this.onEndTurnBtnClick}
             type="button"
             id="next-turn-btn"
-            className="btn btn-primary"
+            className="btn btn-dark"
           >
             {endTurnBtnText}
           </button>
@@ -209,7 +210,7 @@ class Game extends React.Component {
             onClick={this.onNewGameBtnClick}
             type="button"
             id="new-game-btn"
-            className="btn btn-primary"
+            className="btn btn-danger"
           >
             New Game
           </button>

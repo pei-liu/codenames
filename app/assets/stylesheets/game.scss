@@ -1,3 +1,11 @@
+$card-color: #F9F3ED; // unselected
+$blue-card-color: #6284BA;
+$red-card-color: #A84A3C;
+$neutral-card-color: #E8D9CC;
+$assassin-card-color: #33312F;
+$card-text-color: #33312F;
+$card-border-color: #33312F;
+
 #game-page-container {
   min-width: 700px;
   margin-left: 20px;
@@ -32,39 +40,42 @@
       border-style: solid;
       border-width: 2px;
       border-radius: 10px;
+      border-color: $card-border-color;
       margin: 5px;
       overflow: hidden;
-      background-color: white;
+      background-color: $card-color;
 
       .card-sub-container {
         height: 100%;
         .card-text-container {
           height: 100%;
           padding: 30px 0; // vertically center text
+          color: $card-text-color;
           .card-text {
-            font-size: 18px;
+            font-family: monospace;
+            font-size: 23px;
           }
         }
       }
 
       .selected {
         .red {
-          background-color: red;
-          color: red;
+          background-color: $red-card-color;
+          color: $red-card-color;
         }
 
         .blue {
-          background-color: blue;
-          color: blue;
+          background-color: $blue-card-color;
+          color: $blue-card-color;
         }
 
         .neutral {
-          background-color: beige;
-          color: beige;
+          background-color: $neutral-card-color;
+          color: $neutral-card-color;
         }
 
         .assassin {
-          background-color: black;
+          background-color: $assassin-card-color;
         }
       }
 
@@ -79,16 +90,16 @@
           cursor: default
         }
         .red {
-          color: red;
+          color: $red-card-color;
         }
 
         .blue {
-          color: blue;
+          color: $blue-card-color;
         }
 
         .assassin {
           color: white;
-          background-color: black;
+          background-color: $assassin-card-color;
         }
       }
     }
