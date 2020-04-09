@@ -23,6 +23,8 @@
     justify-content: space-between;
     align-content: stretch;
     height: 75vh;
+    margin-top: 10px;
+    margin-bottom: 10px;
 
     .card-container {
       flex: 0 1 calc(20% - 10px); // - 10px to count for the 5px of margin on either side

@@ -74,12 +74,7 @@ class Game extends React.Component {
     const selectedCard = this.state.gameState.board[index];
     let newGameState = _.cloneDeep(this.state.gameState);
 
-    if(selectedCard.type === 'assassin') {
-      this.handleAssassination();
-      return;
-    }
-
-    if(selectedCard.type !== this.currentTurnOrder() || selectedCard.type === 'neutral') {
+    if(selectedCard.type !== 'assassin' && (selectedCard.type !== this.currentTurnOrder() || selectedCard.type === 'neutral')) {
       newGameState.turn_order = this.notCurrentTurnOrder();
     }
 
@@ -145,11 +140,29 @@ class Game extends React.Component {
     return remaining;
   }
 
+  assassinIsSelected() {
+    return this.state.gameState.board.find((card) => card.type === 'assassin').is_selected;
+  }
+
+  gameWinner() {
+    if(this.state.gameState.board.length === 0) { return false; }
+
+    if((this.assassinIsSelected() && this.currentTurnOrder() === 'blue') || this.remainingCards('red') === 0) {
+      return 'red';
+    } else if((this.assassinIsSelected() && this.currentTurnOrder() === 'red') || this.remainingCards('blue') === 0) {
+      return 'blue';
+    } else {
+      return false;
+    }
+  }
+
   render() {
     let roleTogglePlayerClass = this.state.role === 'player' ? 'active' : '';
     let roleToggleSpymasterClass = this.state.role === 'spymaster' ? 'active' : '';
 
     const endTurnBtnText = this.state.gameState.turn_order === 'red' ? "End Red's Turn" : "End Blue's Turn";
+
+    console.log('WINNER', this.gameWinner())
 
     return (
       <div id='game-page-container'>
