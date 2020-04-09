@@ -107,6 +107,13 @@ $card-border-color: #33312F;
 
         .assassin {
           background-color: $assassin-card-color;
+          background-image: url(asset_path("hooded-assassin.svg"));
+          background-repeat: no-repeat;
+          background-position: center;
+
+          .card-text {
+            opacity: 0;
+          }
         }
       }
 
