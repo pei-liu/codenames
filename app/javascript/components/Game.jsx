@@ -3,6 +3,7 @@ import $ from "jquery";
 import _ from "lodash";
 import actionCable from 'actioncable';
 import Board from "./Board";
+import ScoreTracker from "./ScoreTracker";
 
 
 class Game extends React.Component {
@@ -168,7 +169,7 @@ class Game extends React.Component {
     return (
       <div id='game-page-container'>
         <div id ='top-controls'>
-          <span id='score-tracker'>{this.remainingCards('red')}-{this.remainingCards('blue')}</span>
+          <ScoreTracker redScore={this.remainingCards('red')} blueScore={this.remainingCards('blue')} />
           <button
             onClick={this.onEndTurnBtnClick}
             type="button"

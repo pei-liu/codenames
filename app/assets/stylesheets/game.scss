@@ -14,11 +14,42 @@ $card-border-color: #33312F;
   #top-controls {
     display: flex;
     justify-content: space-between;
+    margin-left: 10px;
+    margin-right: 10px;
+
+    #score-tracker-container {
+      width: 300px;
+
+      .red-tally-container,
+      .blue-tally-container {
+        display: flex;
+        justify-content: flex-start;
+      }
+
+      .red-tally-container {
+        margin-bottom: 5px;
+      }
+
+      .tally {
+        width: 15px;
+        height: 15px;
+        margin-right: 5px;
+      }
+
+      .red-tally-container .tally {
+        background-color: $red-card-color;
+      }
+
+      .blue-tally-container .tally {
+        background-color: $blue-card-color;
+      }
+    }
   }
 
   #bottom-controls {
     display: flex;
     justify-content: flex-end;
+    margin-right: 10px;
 
     #new-game-btn {
       margin-left: 20px;
