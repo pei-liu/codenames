@@ -1,5 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 class Lobby extends React.Component {
   constructor(props) {
@@ -8,10 +9,12 @@ class Lobby extends React.Component {
     this.state = {
       identifier: '',
       customDecks: [], // arr of strings
+      selectedCustomDeck: 'Select Custom Deck',
     }
 
-    this.onInputChange = this.onInputChange.bind(this);
+    this.gameIdInputChange = this.gameIdInputChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onCustomDeckSelect = this.onCustomDeckSelect.bind(this);
   }
 
   componentDidMount() {
@@ -27,7 +30,7 @@ class Lobby extends React.Component {
       .then(res => res.json())
       .then(
         (result) => {
-          this.setState({ deckNames: result.deck_names });
+          this.setState({ customDecks: result.deck_names });
         },
         (error) => {
           console.log(error);
@@ -40,12 +43,13 @@ class Lobby extends React.Component {
     return this.props.location.pathname === '/secretlobby';
   }
 
-  onInputChange(event) {
+  gameIdInputChange(event) {
     this.setState({identifier: event.target.value});
   }
 
   onSubmit(event) {
     event.preventDefault();
+    debugger
     const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
 
     const requestOptions = {
@@ -69,10 +73,33 @@ class Lobby extends React.Component {
       )
   }
 
+  onCustomDeckSelect(event) {
+    event.preventDefault();
+    this.setState({ selectedCustomDeck: event.target.value });
+  }
+
+  renderDeckPickerDropdownOptions() {
+    return this.state.customDecks.map((deckName) => {
+      return(
+        <option key={deckName}>{deckName}</option>
+      );
+    })
+  }
+
   render() {
     let adminMsg;
+    let customDeckDropdown;
     if (this.inSecretLobby()) {
-      adminMsg = <p>Welcome back, boss.</p>
+      adminMsg = (<p>Welcome back, boss.</p>)
+
+      customDeckDropdown = (
+        <Form.Group>
+          <Form.Label>Custom Deck</Form.Label>
+          <Form.Control onChange={this.onCustomDeckSelect} as="select">
+            {this.renderDeckPickerDropdownOptions()}
+          </Form.Control>
+        </Form.Group>
+      );
     }
 
     return (
@@ -83,32 +110,15 @@ class Lobby extends React.Component {
             <p className="lead">
               Enter Game ID to join or create game!
             </p>
-            <form onSubmit={this.onSubmit} className="text-center">
-              <div className="form-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="identifierFormInput"
-                  placeholder="Enter identifer"
-                  value={this.state.value}
-                  onChange={this.onInputChange}
-                />
-              </div>
-
-              <Dropdown>
-                <Dropdown.Toggle variant="success" id="dropdown-basic">
-                  Dropdown Button
-  </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                  <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                  <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-
-              <input type="submit" className="btn btn-primary" value="Submit" />
-            </form>
+            <Form onSubmit={this.onSubmit}>
+              <Form.Group>
+                <Form.Control onChange={this.gameIdInputChange} type="text" placeholder="Game ID" />
+              </Form.Group>
+              {customDeckDropdown}
+              <Button variant="primary" type="submit">
+                Submit
+              </Button>
+            </Form>
           </div>
         </div>
       </div>
