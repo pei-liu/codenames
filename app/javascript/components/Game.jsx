@@ -173,6 +173,26 @@ class Game extends React.Component {
     }
   }
 
+  goingFirst() {
+    if(!this.isNewGame()) { return; }
+    console.log(this.isNewGame())
+
+    const maxCards = 9;
+    if(this.remainingCards('red') === maxCards) {
+      return 'red';
+    } else if(this.remainingCards('blue') === maxCards) {
+      return 'blue';
+    }
+  }
+
+  isNewGame() {
+    const selectedCard = this.state.gameState.board.find((card) => {
+      return card.is_selected;
+    });
+
+    return selectedCard === undefined ? true : false;
+  }
+
   render() {
     let roleTogglePlayerClass = this.state.role === 'player' ? 'active' : '';
     let roleToggleSpymasterClass = this.state.role === 'spymaster' ? 'active' : '';
@@ -184,6 +204,10 @@ class Game extends React.Component {
       middleMsg = 'Red Wins!';
     } else if(this.gameWinner() === 'blue') {
       middleMsg = 'Blue Wins!';
+    } else if(this.goingFirst() === 'red') {
+      middleMsg = 'Red goes first!';
+    } else if(this.goingFirst() === 'blue') {
+      middleMsg = 'Blue goes first!';
     }
 
     return (
