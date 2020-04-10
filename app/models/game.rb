@@ -44,7 +44,10 @@ class Game < ApplicationRecord
 
   def set_new_board
     turn_order = went_first == RED ? BLUE : RED
-    update(status: "active", state: self.class.new_board(turn_order))
+    update(
+      status: "active",
+      state: self.class.new_board(turn_order)
+    )
   end
 
   private

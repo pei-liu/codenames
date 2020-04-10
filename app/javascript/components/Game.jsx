@@ -175,7 +175,6 @@ class Game extends React.Component {
 
   goingFirst() {
     if(!this.isNewGame()) { return; }
-    console.log(this.isNewGame())
 
     const maxCards = 9;
     if(this.remainingCards('red') === maxCards) {
