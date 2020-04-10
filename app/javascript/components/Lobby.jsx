@@ -6,7 +6,8 @@ class Lobby extends React.Component {
     super(props);
 
     this.state = {
-      identifier: ''
+      identifier: '',
+      customDecks: [], // arr of strings
     }
 
     this.onInputChange = this.onInputChange.bind(this);
@@ -14,7 +15,29 @@ class Lobby extends React.Component {
   }
 
   componentDidMount() {
+    if(this.inSecretLobby()) { this.getCustomDecks(); }
+  }
 
+  getCustomDecks() {
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    }
+    fetch(`/api/custom_decks`, requestOptions)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({ deckNames: result.deck_names });
+        },
+        (error) => {
+          console.log(error);
+          // TO DO handle error
+        }
+      );
+  }
+
+  inSecretLobby() {
+    return this.props.location.pathname === '/secretlobby';
   }
 
   onInputChange(event) {
@@ -48,7 +71,7 @@ class Lobby extends React.Component {
 
   render() {
     let adminMsg;
-    if (this.props.location.pathname === '/secretlobby') {
+    if (this.inSecretLobby()) {
       adminMsg = <p>Welcome back, boss.</p>
     }
 
@@ -71,6 +94,19 @@ class Lobby extends React.Component {
                   onChange={this.onInputChange}
                 />
               </div>
+
+              <Dropdown>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                  Dropdown Button
+  </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                  <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                  <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+
               <input type="submit" className="btn btn-primary" value="Submit" />
             </form>
           </div>
