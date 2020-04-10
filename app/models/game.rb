@@ -10,13 +10,13 @@ class Game < ApplicationRecord
     inclusion: { in: %w(active inactive), message: "%{value} is not a valid status" }
   validates :state, presence: true
 
-  def self.new_board(going_first = RED, special_deck = nil)
+  def self.new_board(going_first = RED, custom_deck = nil)
     raise ArgumentError unless [RED, BLUE].include? going_first
 
     red_count, blue_count = going_first == RED ? [9, 8] : [8, 9]
     assassin_count = 1
 
-    board = pick_cards(special_deck).map do |card|
+    board = pick_cards(custom_deck).map do |card|
       type = if red_count > 0
                red_count -= 1
                RED
@@ -50,16 +50,16 @@ class Game < ApplicationRecord
   private
 
   # returns Array of 25 random/shuffled cards
-  def self.pick_cards(special_deck)
+  def self.pick_cards(custom_deck)
     default_deck = load_deck('default')
-    special_deck = load_deck(special_deck)
+    custom_deck = load_deck(custom_deck)
 
     cards = default_deck.sample(25)
 
-    if special_deck
+    if custom_deck
       # Replace some cards with special cards.
       cards.shift(4)
-      cards.concat(special_deck.sample(4))
+      cards.concat(custom_deck.sample(4))
       cards.shuffle!
     end
 

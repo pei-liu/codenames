@@ -10,7 +10,7 @@ module API
       if game
         status_code = 302 # :found
       else
-        game = create_game(identifier)
+        game = create_game(identifier, params[:custom_deck])
         status_code = 201 # :created
       end
 
@@ -29,11 +29,11 @@ module API
 
     private
 
-    def create_game(identifier)
+    def create_game(identifier, custom_deck = nil)
       Game.create(
         identifier: identifier,
         status: 'active',
-        state: Game.new_board
+        state: Game.new_board('red', custom_deck)
       )
     end
   end

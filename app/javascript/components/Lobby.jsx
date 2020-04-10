@@ -9,7 +9,7 @@ class Lobby extends React.Component {
     this.state = {
       identifier: '',
       customDecks: [], // arr of strings
-      selectedCustomDeck: 'Select Custom Deck',
+      selectedCustomDeck: '',
     }
 
     this.gameIdInputChange = this.gameIdInputChange.bind(this);
@@ -30,7 +30,10 @@ class Lobby extends React.Component {
       .then(res => res.json())
       .then(
         (result) => {
-          this.setState({ customDecks: result.deck_names });
+          this.setState({
+            customDecks: result.deck_names,
+            selectedCustomDeck: -1,
+          });
         },
         (error) => {
           console.log(error);
@@ -49,12 +52,12 @@ class Lobby extends React.Component {
 
   onSubmit(event) {
     event.preventDefault();
-    debugger
     const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
-
+    const selectedCustomDeck = this.state.selectedCustomDeck === -1 ? '' : this.state.selectedCustomDeck;
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrf },
+      body: JSON.stringify({custom_deck: selectedCustomDeck}),
     };
 
     fetch(`/api/${this.state.identifier}`, requestOptions)
@@ -79,11 +82,14 @@ class Lobby extends React.Component {
   }
 
   renderDeckPickerDropdownOptions() {
-    return this.state.customDecks.map((deckName) => {
-      return(
-        <option key={deckName}>{deckName}</option>
+    let options = [<option key='-1' value='-1'>Choose Deck</option>];
+    this.state.customDecks.forEach((deckName) => {
+      options.push(
+        <option key={deckName} value={`${deckName}`}>{deckName}</option>
       );
     })
+
+    return options;
   }
 
   render() {
@@ -95,7 +101,7 @@ class Lobby extends React.Component {
       customDeckDropdown = (
         <Form.Group>
           <Form.Label>Custom Deck</Form.Label>
-          <Form.Control onChange={this.onCustomDeckSelect} as="select">
+          <Form.Control value={this.state.selectedCustomDeck} onChange={this.onCustomDeckSelect} as="select">
             {this.renderDeckPickerDropdownOptions()}
           </Form.Control>
         </Form.Group>
