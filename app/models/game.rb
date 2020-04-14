@@ -9,6 +9,8 @@ class Game < ApplicationRecord
     presence: true,
     inclusion: { in: %w(active inactive), message: "%{value} is not a valid status" }
 
+  after_create :set_new_board
+
   def self.new_board(going_first = RED, custom_deck = nil)
     raise ArgumentError unless [RED, BLUE].include? going_first
 

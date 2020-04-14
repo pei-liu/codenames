@@ -30,12 +30,10 @@ module API
     private
 
     def create_game(identifier, custom_deck = nil)
-      game = Game.create(
+      Game.create(
         identifier: identifier,
         status: 'active'
       )
-      game.set_new_board
-      game
     end
   end
 end
