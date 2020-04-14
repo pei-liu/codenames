@@ -11,6 +11,17 @@ class Game < ApplicationRecord
 
   after_create :set_new_board
 
+  def set_new_board
+    turn_order = went_first == RED ? BLUE : RED
+
+    update(
+      status: "active",
+      state: self.class.new_board(turn_order)
+    )
+  end
+
+  private
+
   def self.new_board(going_first = RED, custom_deck = nil)
     raise ArgumentError unless [RED, BLUE].include? going_first
 
@@ -42,16 +53,6 @@ class Game < ApplicationRecord
       board: board.shuffle
     }
   end
-
-  def set_new_board
-    turn_order = went_first == RED ? BLUE : RED
-    update(
-      status: "active",
-      state: self.class.new_board(turn_order)
-    )
-  end
-
-  private
 
   # returns Array of 25 random/shuffled cards
   def self.pick_cards(custom_deck)
