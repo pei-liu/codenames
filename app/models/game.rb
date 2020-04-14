@@ -8,7 +8,6 @@ class Game < ApplicationRecord
   validates :status,
     presence: true,
     inclusion: { in: %w(active inactive), message: "%{value} is not a valid status" }
-  validates :state, presence: true
 
   def self.new_board(going_first = RED, custom_deck = nil)
     raise ArgumentError unless [RED, BLUE].include? going_first
@@ -78,6 +77,8 @@ class Game < ApplicationRecord
   end
 
   def went_first
+    return RED unless state
+
     red_card_count = state['board'].count{ |c| c['type'] === RED }
     red_card_count === 9 ? RED : BLUE
   end
