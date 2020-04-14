@@ -4,10 +4,8 @@ RSpec.describe Game, type: :model do
 
   let(:game) { create(:game) }
 
-  describe '#self.create' do
-    it 'populates the "state" field' do
-      expect(game.state).to be
-    end
+  before do
+    game.set_new_board
   end
 
   describe '#set_new_board' do

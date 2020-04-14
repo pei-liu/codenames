@@ -9,14 +9,12 @@ class Game < ApplicationRecord
     presence: true,
     inclusion: { in: %w(active inactive), message: "%{value} is not a valid status" }
 
-  after_create :set_new_board
-
-  def set_new_board
+  def set_new_board(custom_deck = nil)
     turn_order = went_first == RED ? BLUE : RED
 
     update(
       status: "active",
-      state: self.class.new_board(turn_order)
+      state: self.class.new_board(turn_order, custom_deck)
     )
   end
 
