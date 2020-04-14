@@ -33,7 +33,11 @@ class Game extends React.Component {
       {
         connected: () => { console.log('CONNECTED') },
         disconnected: () => { console.log('DISCONNECTED') },
-        received: newGameState => { this.setState({ gameState: newGameState }); },
+        received: (data) => {
+          let newState = { gameState: data['game_state'] };
+          if(data['is_new_game']) { newState['role'] = 'player'; }
+          this.setState(newState);
+        },
       }
     );
   }
