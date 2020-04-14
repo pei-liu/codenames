@@ -32,6 +32,7 @@ gem 'awesome_print'
 
 group :development, :test do
   gem 'pry'
+  gem 'rspec-rails', '~> 4.0.0'
 end
 
 group :development do
