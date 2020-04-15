@@ -67,16 +67,15 @@ RSpec.describe Game, type: :model do
     end
 
     it 'adds current cards in board to seen_cards' do
-      expect(game.state['board'].map{|c| c['title']}.join(',')).to eq(game.seen_cards)
+      expect(game.cards.join(',')).to eq(game.seen_cards)
     end
 
     it 'does not include seen_cards in the board' do
       FakeFS do
         seen_cards = game.seen_cards.split(',')
         game.set_new_board
-        new_cards = game.state['board'].map{ |c| c['title'] }
 
-        expect((new_cards - seen_cards).count).to eq(25)
+        expect((game.cards - seen_cards).count).to eq(25)
       end
     end
 
@@ -86,7 +85,7 @@ RSpec.describe Game, type: :model do
         game.set_new_board
 
         expect(game.seen_cards.split(',').count).to eq(25)
-        expect(game.state['board'].map{ |c| c['title'] }.count).to eq(25)
+        expect(game.cards.count).to eq(25)
       end
     end
 
