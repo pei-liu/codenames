@@ -11,8 +11,8 @@ RSpec.describe Game, type: :model do
       path = Rails.root.join("app/assets/decks/")
       default_deck_content = ''
       custom_deck_content = ''
-      50.times { |i| default_deck_content += "default#{i}\n"}
-      50.times { |i| custom_deck_content += "custom#{i}\n"}
+      51.times { |i| default_deck_content += "default#{i}\n"}
+      9.times { |i| custom_deck_content += "custom#{i}\n"}
 
       FakeFS::FileSystem.clone(path)
       File.write("#{path}/default.txt", default_deck_content)
@@ -60,6 +60,31 @@ RSpec.describe Game, type: :model do
     it 'capitalizes card text' do
       expect(game.state['board'].first['title']).to match(/DEFAULT/)
     end
+
+    it 'adds current cards in board to seen_cards' do
+      expect(game.state['board'].map{|c| c['title']}.join(',')).to eq(game.seen_cards)
+    end
+
+    it 'does not include seen_cards in the board' do
+      FakeFS do
+        seen_cards = game.seen_cards.split(',')
+        game.set_new_board
+        new_cards = game.state['board'].map{ |c| c['title'] }
+
+        expect((new_cards - seen_cards).count).to eq(25)
+      end
+    end
+
+    it 'resets seen_cards if all cards have been seen' do
+      FakeFS do
+        game.set_new_board # seen_cards count should now be 50
+        game.set_new_board
+
+        expect(game.seen_cards.split(',').count).to eq(25)
+        expect(game.state['board'].map{ |c| c['title'] }.count).to eq(25)
+      end
+    end
+
 
     context 'with custom_deck param' do
       it 'includes 4 cards from the custom deck' do
