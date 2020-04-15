@@ -1,11 +1,32 @@
 require 'rails_helper'
+require 'fakefs/spec_helpers'
 
 RSpec.describe Game, type: :model do
+
+  def create_test_decks
+    # The fakefs gem creates a fake file system.
+    # In this fake file system, replace the default.txt deck with test content.
+    # Also create a 'custom.txt' deck for testing purposes.
+    FakeFS do
+      path = Rails.root.join("app/assets/decks/")
+      default_deck_content = ''
+      custom_deck_content = ''
+      50.times { |i| default_deck_content += "default#{i}\n"}
+      50.times { |i| custom_deck_content += "custom#{i}\n"}
+
+      FakeFS::FileSystem.clone(path)
+      File.write("#{path}/default.txt", default_deck_content)
+      File.write("#{path}/custom.txt", default_deck_content)
+    end
+  end
 
   let(:game) { create(:game) }
 
   before do
-    game.set_new_board
+    FakeFS do
+      create_test_decks
+      game.set_new_board
+    end
   end
 
   describe '#set_new_board' do
@@ -35,6 +56,10 @@ RSpec.describe Game, type: :model do
     it 'sets all cards to be unselected' do
       expect(game.state['board'].count{|c| c['is_selected']}).to eq(0)
     end
-  end
 
+    context 'with custom_deck param' do
+      it 'includes 4 cards from the custom deck' do
+      end
+    end
+  end
 end
