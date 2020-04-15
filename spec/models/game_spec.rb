@@ -2,21 +2,26 @@ require 'rails_helper'
 require 'fakefs/spec_helpers'
 
 RSpec.describe Game, type: :model do
+  PATH = Rails.root.join("app/assets/decks/")
 
-  def create_test_decks
+  def create_test_decks(default_deck_content = nil, custom_deck_content = nil)
     # The fakefs gem creates a fake file system.
     # In this fake file system, replace the default.txt deck with test content.
     # Also create a 'custom.txt' deck for testing purposes.
     FakeFS do
-      path = Rails.root.join("app/assets/decks/")
-      default_deck_content = ''
-      custom_deck_content = ''
-      51.times { |i| default_deck_content += "default#{i}\n"}
-      9.times { |i| custom_deck_content += "custom#{i}\n"}
+      unless default_deck_content
+        default_deck_content = ''
+        51.times { |i| default_deck_content += "default#{i}\n"}
+      end
 
-      FakeFS::FileSystem.clone(path)
-      File.write("#{path}/default.txt", default_deck_content)
-      File.write("#{path}/custom.txt", custom_deck_content)
+      unless custom_deck_content
+        custom_deck_content = ''
+        9.times { |i| custom_deck_content += "custom#{i}\n"}
+      end
+
+      FakeFS::FileSystem.clone(PATH)
+      File.write("#{PATH}/default.txt", default_deck_content)
+      File.write("#{PATH}/custom.txt", custom_deck_content)
     end
   end
 
@@ -91,6 +96,22 @@ RSpec.describe Game, type: :model do
         FakeFS do
           game.set_new_board('custom')
           expect(game.state['board'].count{ |c| c['title'].match(/CUSTOM/)}).to eq(4)
+        end
+      end
+
+      it 'does not include custom card that are duplicates' do
+        FakeFS do
+          default_deck_content = ''
+          custom_deck_content = ''
+
+          25.times{ |i| default_deck_content += "default#{i}\n" }
+          100.times{ |i| custom_deck_content += "default0\n"}
+          4.times{ |i| custom_deck_content += "custom#{i}\n" }
+
+          create_test_decks(default_deck_content, custom_deck_content)
+
+          game.set_new_board('custom')
+          expect(game.cards.uniq.count).to eq(25)
         end
       end
     end
