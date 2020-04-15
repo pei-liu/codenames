@@ -16,7 +16,7 @@ RSpec.describe Game, type: :model do
 
       FakeFS::FileSystem.clone(path)
       File.write("#{path}/default.txt", default_deck_content)
-      File.write("#{path}/custom.txt", default_deck_content)
+      File.write("#{path}/custom.txt", custom_deck_content)
     end
   end
 
@@ -57,8 +57,16 @@ RSpec.describe Game, type: :model do
       expect(game.state['board'].count{|c| c['is_selected']}).to eq(0)
     end
 
+    it 'capitalizes card text' do
+      expect(game.state['board'].first['title']).to match(/DEFAULT/)
+    end
+
     context 'with custom_deck param' do
       it 'includes 4 cards from the custom deck' do
+        FakeFS do
+          game.set_new_board('custom')
+          expect(game.state['board'].count{ |c| c['title'].match(/CUSTOM/)}).to eq(4)
+        end
       end
     end
   end
