@@ -89,7 +89,6 @@ RSpec.describe Game, type: :model do
       end
     end
 
-
     context 'with custom_deck param' do
       it 'includes 4 cards from the custom deck' do
         FakeFS do
