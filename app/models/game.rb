@@ -23,6 +23,10 @@ class Game < ApplicationRecord
     )
   end
 
+  def cards
+    self.state['board'].map{ |c| c['title'] }
+  end
+
   private
 
   def new_board(going_first = RED, custom_deck = nil)
@@ -67,6 +71,7 @@ class Game < ApplicationRecord
     if custom_deck
       # Replace some cards with special cards.
       cards.shift(4)
+      custom_deck = custom_deck - cards # ensure there are no duplicates from the custom deck
       cards.concat(custom_deck.sample(4))
       cards.shuffle!
     end
