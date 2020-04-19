@@ -144,14 +144,17 @@ $card-border-color: #33312F;
           cursor: default;
         }
         .red {
+          font-weight: bold;
           color: $red-card-color;
         }
 
         .blue {
+          font-weight: bold;
           color: $blue-card-color;
         }
 
         .assassin {
+          font-weight: bold;
           color: white;
           background-color: $assassin-card-color;
         }
