@@ -85,7 +85,7 @@ class Lobby extends React.Component {
     let options = [<option key='-1' value='-1'>Choose Deck</option>];
     this.state.customDecks.forEach((deckName) => {
       options.push(
-        <option key={deckName} value={`${deckName}`}>{deckName}</option>
+        <option key={deckName} value={deckName}>{deckName}</option>
       );
     })
 

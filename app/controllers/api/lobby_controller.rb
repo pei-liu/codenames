@@ -2,10 +2,14 @@ module API
   class LobbyController < ApplicationController
     def index_custom_decks
       deck_names = []
-      path = Rails.root.join("app/assets/decks/")
-      Dir.entries(path)[2..-1].each do |file|
-        next if file === 'default.txt'
-        deck_names << file.split('.').first
+
+      folder_path = Rails.root.join("app/assets/decks")
+      deck_paths = Dir["#{folder_path}/*"]
+
+      deck_paths.each do |deck_path|
+        file_name = deck_path.split('/').last
+        next if file_name == 'default.txt'
+        deck_names << file_name.split('.').first
       end
 
       render json: {deck_names: deck_names}
