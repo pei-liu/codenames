@@ -1,5 +1,6 @@
 namespace :util do
   desc "Checks if there are any dups within each deck"
+  # rake util:check_dups_within_decks
   task check_dups_within_decks: :environment do
     dups_found = false
     folder_path = Rails.root.join("app/assets/decks")
@@ -22,6 +23,7 @@ namespace :util do
   end
 
   desc "Checks if any custom decks contain cards already in the default deck"
+  # rake util:check_dups_between_decks
   task check_dups_between_decks: :environment do
     dups_found = false
 
