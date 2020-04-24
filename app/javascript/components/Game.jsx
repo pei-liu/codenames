@@ -235,6 +235,7 @@ class Game extends React.Component {
           boardState={this.state.gameState.board}
           role={this.state.role}
           onCardSelect={this.onCardSelect}
+          gameWinner={this.gameWinner()}
         />
         <div id='bottom-controls'>
           <div id='role-toggle-group' className="btn-group btn-group-toggle">

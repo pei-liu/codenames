@@ -15,11 +15,12 @@ class Card extends React.Component {
   render() {
     const selectedClass = this.props.isSelected ? 'selected' : ''
     const roleClass = this.props.role;
+    const gameOverClass = this.props.gameWinner ? 'game-over' : ''
     return (
       <div className='card-container' onClick={this.onCardSelect}>
         <div className={`card-sub-container ${selectedClass} ${roleClass}`}>
           <div className={`card-text-container ${this.props.type}`}>
-            <span className='card-text'>{this.props.title}</span>
+            <span className={`card-text ${gameOverClass}`}>{this.props.title}</span>
           </div>
         </div>
       </div>

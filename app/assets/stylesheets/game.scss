@@ -95,6 +95,9 @@ $card-border-color: #33312F;
       }
 
       .selected {
+        .card-text.game-over {
+          color: $assassin-card-color;
+        }
         .red {
           background-color: $red-card-color;
           color: $red-card-color;
@@ -119,13 +122,19 @@ $card-border-color: #33312F;
           .card-text {
             opacity: 0;
           }
+          .card-text.game-over {
+            &:hover {
+              opacity: 1;
+              color: $red-card-color;
+            }
+          }
         }
       }
 
       .player {
         &:hover {
           cursor: pointer;
-          .card-text-container {
+          .card-text{
             color: $assassin-card-color;
           }
         }
@@ -133,7 +142,7 @@ $card-border-color: #33312F;
 
       .spymaster.selected {
         &:hover {
-          .card-text-container {
+          .card-text {
             color: $assassin-card-color;
           }
         }
@@ -143,18 +152,16 @@ $card-border-color: #33312F;
         &:hover {
           cursor: default;
         }
+
         .red {
-          font-weight: bold;
           color: $red-card-color;
         }
 
         .blue {
-          font-weight: bold;
           color: $blue-card-color;
         }
 
         .assassin {
-          font-weight: bold;
           color: white;
           background-color: $assassin-card-color;
         }

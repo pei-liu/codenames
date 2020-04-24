@@ -22,6 +22,7 @@ class Board extends React.Component {
           key={key}
           index={key}
           role={this.props.role}
+          gameWinner={this.props.gameWinner}
         />
       )
     });
