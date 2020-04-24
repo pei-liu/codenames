@@ -25,13 +25,15 @@ class Game extends React.Component {
   }
 
   componentDidMount() {
-    this.setGameState();
     const webSocketUrl = $('#web-socket-url').textContent
     this.cable = actionCable.createConsumer(webSocketUrl);
     this.gameChannel = this.cable.subscriptions.create(
       { channel: "GameChannel", id: this.props.match.params.gameId },
       {
-        connected: () => { console.log('CONNECTED') },
+        connected: () => {
+          console.log('CONNECTED');
+          this.setGameState();
+        },
         disconnected: () => { console.log('DISCONNECTED') },
         received: (data) => {
           let newState = { gameState: data['game_state'] };
