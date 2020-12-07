@@ -60,13 +60,15 @@ class Lobby extends React.Component {
       body: JSON.stringify({custom_deck: selectedCustomDeck}),
     };
 
+    // TO DO: Instead of fetching the game state here, find a way to just have Game.jsx do it.
     fetch(`/api/${this.state.identifier}`, requestOptions)
       .then(res => res.json())
       .then(
         (result) => {
           this.props.history.push({
             pathname: `/${this.state.identifier}`,
-            gameState: result.state
+            gameState: result.state,
+            customDeck: result.custom_deck
           });
         },
         (error) => {

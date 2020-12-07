@@ -53,11 +53,22 @@ $card-border-color: #33312F;
 
   #bottom-controls {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    margin-left: 10px;
     margin-right: 10px;
 
-    #new-game-btn {
-      margin-left: 20px;
+    #left-content {
+      font-family: monospace;
+      font-size: 15px
+    }
+
+    #right-content {
+      display: flex;
+      justify-content: flex-end;
+
+      #new-game-btn {
+        margin-left: 20px;
+      }
     }
   }
 

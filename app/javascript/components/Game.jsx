@@ -11,7 +11,8 @@ class Game extends React.Component {
     super(props);
 
     this.state = {
-      role: 'player', // valid: [player, spymaster]
+      role: 'player', // valid: [player, spymaster],
+      customDeck: null,
       gameState: {
         turn_order: '', // valid: [red, blue]
         board: [],
@@ -54,9 +55,9 @@ class Game extends React.Component {
 
   setGameState() {
     // gameState available (when redirecting from the lobby)
-    const { gameState } = this.props.location
+    const { gameState, customDeck } = this.props.location
     if (gameState !== undefined) {
-      this.setState({ gameState });
+      this.setState({ gameState, customDeck });
       return
     }
 
@@ -70,7 +71,7 @@ class Game extends React.Component {
       .then(res => res.json())
       .then(
         (result) => {
-          this.setState({ gameState: result.state });
+          this.setState({ gameState: result.state, customDeck: result.custom_deck });
         },
         (error) => {
           console.log(error);
@@ -199,6 +200,7 @@ class Game extends React.Component {
   }
 
   render() {
+    console.log(this.state)
     let roleTogglePlayerClass = this.state.role === 'player' ? 'active' : '';
     let roleToggleSpymasterClass = this.state.role === 'spymaster' ? 'active' : '';
 
@@ -214,6 +216,9 @@ class Game extends React.Component {
     } else if(this.goingFirst() === 'blue') {
       middleMsg = 'Blue goes first!';
     }
+
+    let leftMsg = '';
+    if(this.state.customDeck) { leftMsg = `Playing with custom deck: ${this.state.customDeck}` }
 
     return (
       <div id='game-page-container'>
@@ -238,36 +243,41 @@ class Game extends React.Component {
           gameWinner={this.gameWinner()}
         />
         <div id='bottom-controls'>
-          <div id='role-toggle-group' className="btn-group btn-group-toggle">
-            <label className={`btn btn-secondary ${roleTogglePlayerClass}`}>
-              <input
-                type="radio"
-                name="role"
-                value="player"
-                checked={this.state.role === 'player'}
-                onChange={this.onRoleToggleChange}
-                className="form-check-input"
-              /> Player
-            </label>
-            <label className={`btn btn-secondary ${roleToggleSpymasterClass}`}>
-              <input
-                type="radio"
-                name="role"
-                value="spymaster"
-                checked={this.state.role === 'spymaster'}
-                onChange={this.onRoleToggleChange}
-                className="form-check-input"
-              /> Spymaster
-            </label>
+          <div id='left-content'>
+            {leftMsg}
           </div>
-          <button
-            onClick={this.onNewGameBtnClick}
-            type="button"
-            id="new-game-btn"
-            className="btn btn-danger"
-          >
-            New Game
-          </button>
+          <div id='right-content'>
+            <div id='role-toggle-group' className="btn-group btn-group-toggle">
+              <label className={`btn btn-secondary ${roleTogglePlayerClass}`}>
+                <input
+                  type="radio"
+                  name="role"
+                  value="player"
+                  checked={this.state.role === 'player'}
+                  onChange={this.onRoleToggleChange}
+                  className="form-check-input"
+                /> Player
+              </label>
+              <label className={`btn btn-secondary ${roleToggleSpymasterClass}`}>
+                <input
+                  type="radio"
+                  name="role"
+                  value="spymaster"
+                  checked={this.state.role === 'spymaster'}
+                  onChange={this.onRoleToggleChange}
+                  className="form-check-input"
+                /> Spymaster
+              </label>
+            </div>
+            <button
+              onClick={this.onNewGameBtnClick}
+              type="button"
+              id="new-game-btn"
+              className="btn btn-danger"
+            >
+              New Game
+            </button>
+          </div>
         </div>
       </div>
     );
