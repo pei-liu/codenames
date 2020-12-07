@@ -9,11 +9,11 @@ class Game < ApplicationRecord
     presence: true,
     inclusion: { in: %w(active inactive), message: "%{value} is not a valid status" }
 
-  def set_new_board(custom_deck = nil)
+  def set_new_board
     @seen_cards = self.seen_cards.split(',')
     turn_order = went_first == RED ? BLUE : RED
 
-    state = new_board(turn_order, custom_deck)
+    state = new_board(turn_order)
     @seen_cards.concat(state[:board].map{ |c| c[:title] })
 
     update(
@@ -29,13 +29,13 @@ class Game < ApplicationRecord
 
   private
 
-  def new_board(going_first = RED, custom_deck = nil)
+  def new_board(going_first = RED)
     raise ArgumentError unless [RED, BLUE].include? going_first
 
     red_count, blue_count = going_first == RED ? [9, 8] : [8, 9]
     assassin_count = 1
 
-    board = pick_cards(custom_deck).map do |card|
+    board = pick_cards.map do |card|
       type = if red_count > 0
                red_count -= 1
                RED
@@ -62,13 +62,12 @@ class Game < ApplicationRecord
   end
 
   # returns Array of 25 random/shuffled cards
-  def pick_cards(custom_deck)
-    default_deck = remove_seen_cards(load_deck('default'))
-    custom_deck = load_deck(custom_deck)
-
+  def pick_cards
+    default_deck = remove_seen_cards(load_deck)
     cards = default_deck.sample(25)
 
-    if custom_deck
+    if self.custom_deck_name
+      custom_deck = load_deck(self.custom_deck_name)
       # Replace some cards with special cards.
       cards.shift(4)
       custom_deck = custom_deck - cards # ensure there are no duplicates from the custom deck
@@ -79,7 +78,7 @@ class Game < ApplicationRecord
     cards
   end
 
-  def load_deck(deck_name)
+  def load_deck(deck_name = 'default')
     path = Rails.root.join("app/assets/decks/#{deck_name}.txt")
 
     return unless deck_name && File.exist?(path)
