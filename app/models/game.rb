@@ -9,6 +9,8 @@ class Game < ApplicationRecord
     presence: true,
     inclusion: { in: %w(active inactive), message: "%{value} is not a valid status" }
 
+  before_save :check_for_empty_custom_deck_name
+
   def set_new_board
     @seen_cards = self.seen_cards.split(',')
     turn_order = went_first == RED ? BLUE : RED
@@ -104,5 +106,11 @@ class Game < ApplicationRecord
     end
 
     return subset
+  end
+
+  # Callbacks
+
+  def check_for_empty_custom_deck_name
+    self.custom_deck_name = self.custom_deck_name.blank? ? nil : self.custom_deck_name
   end
 end
