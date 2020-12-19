@@ -9,8 +9,6 @@
     "@rails/webpacker": "4.2.2",
     "actioncable": "^5.2.4-2",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
-    "bootstrap": "^4.4.1",
-    "jquery": "^3.4.1",
     "lodash": "^4.17.15",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",

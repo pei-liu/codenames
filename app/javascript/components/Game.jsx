@@ -1,5 +1,4 @@
 import React from "react";
-import $ from "jquery";
 import _ from "lodash";
 import actionCable from 'actioncable';
 import Board from "./Board";
