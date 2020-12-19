@@ -1,6 +1,7 @@
 # Setup
 TO DO
-- Figure out issue with compiling Bootstrap so we don't have to fetch from CDN
+- Figure out the issue I had installing Bootstrap and Jquery using yarn ([removal commit](https://github.com/pei-liu/codenames/commit/20ef8933d49f01a7c7d395b755c827bf2f68bb2d)). Currently fetching libraries from CDN.
+
 ## Run Locally
 ```
 git clone git@github.com:pei-liu/codenames.git
