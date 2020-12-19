@@ -9,7 +9,7 @@ class Lobby extends React.Component {
     this.state = {
       identifier: '',
       customDecks: [], // arr of strings
-      selectedCustomDeck: '',
+      selectedCustomDeckId: '',
     }
 
     this.gameIdInputChange = this.gameIdInputChange.bind(this);
@@ -31,8 +31,8 @@ class Lobby extends React.Component {
       .then(
         (result) => {
           this.setState({
-            customDecks: result.deck_names,
-            selectedCustomDeck: -1,
+            customDecks: JSON.parse(result.decks),
+            selectedCustomDeckId: -1,
           });
         },
         (error) => {
@@ -53,11 +53,11 @@ class Lobby extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
-    const selectedCustomDeck = this.state.selectedCustomDeck === -1 ? '' : this.state.selectedCustomDeck;
+    const selectedCustomDeckId = this.state.selectedCustomDeckId === -1 ? '' : this.state.selectedCustomDeckId;
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrf },
-      body: JSON.stringify({custom_deck: selectedCustomDeck}),
+      body: JSON.stringify({custom_deck_id: selectedCustomDeckId}),
     };
 
     // TO DO: Instead of fetching the game state here, find a way to just have Game.jsx do it.
@@ -80,14 +80,15 @@ class Lobby extends React.Component {
 
   onCustomDeckSelect(event) {
     event.preventDefault();
-    this.setState({ selectedCustomDeck: event.target.value });
+    this.setState({ selectedCustomDeckId: event.target.value });
   }
 
   renderDeckPickerDropdownOptions() {
     let options = [<option key='-1' value='-1'>Choose Deck</option>];
-    this.state.customDecks.forEach((deckName) => {
+
+    this.state.customDecks.forEach((deck) => {
       options.push(
-        <option key={deckName} value={deckName}>{deckName}</option>
+        <option key={deck.id} value={deck.id}>{deck.name}</option>
       );
     })
 
@@ -103,7 +104,7 @@ class Lobby extends React.Component {
       customDeckDropdown = (
         <Form.Group>
           <Form.Label>Custom Deck</Form.Label>
-          <Form.Control value={this.state.selectedCustomDeck} onChange={this.onCustomDeckSelect} as="select">
+          <Form.Control value={this.state.selectedCustomDeckId} onChange={this.onCustomDeckSelect} as="select">
             {this.renderDeckPickerDropdownOptions()}
           </Form.Control>
         </Form.Group>
