@@ -1,7 +1,7 @@
 mistletoe
 latke
 stocking
-dradle
+dreidel
 sugarplum
 gingerbread
 rudolph
@@ -21,3 +21,10 @@ grinch
 magi
 menorah
 sleigh
+chinese food
+peace on earth
+ugly sweater
+elf
+wreath
+scrooge
+miracle
