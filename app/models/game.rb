@@ -9,7 +9,7 @@ class Game < ApplicationRecord
     presence: true,
     inclusion: { in: %w(active inactive), message: "%{value} is not a valid status" }
 
-  before_save :check_for_empty_custom_deck_name
+  belongs_to :custom_deck, class_name: 'Deck'
 
   def set_new_board
     @seen_cards = self.seen_cards.split(',')
@@ -65,27 +65,18 @@ class Game < ApplicationRecord
 
   # returns Array of 25 random/shuffled cards
   def pick_cards
-    default_deck = remove_seen_cards(load_deck)
+    default_deck = remove_seen_cards(Deck::DEFAULT_DECK.cards)
     cards = default_deck.sample(25)
 
-    if self.custom_deck_name
-      custom_deck = load_deck(self.custom_deck_name)
+    if self.custom_deck
       # Replace some cards with special cards.
       cards.shift(4)
-      custom_deck = custom_deck - cards # ensure there are no duplicates from the custom deck
+      custom_deck = self.custom_deck.cards - cards # ensure there are no duplicates from the custom deck
       cards.concat(custom_deck.sample(4))
       cards.shuffle!
     end
 
     cards
-  end
-
-  def load_deck(deck_name = 'default')
-    path = Rails.root.join("app/assets/decks/#{deck_name}.txt")
-
-    return unless deck_name && File.exist?(path)
-
-    File.read(path).split("\n").map(&:upcase)
   end
 
   def went_first
@@ -106,11 +97,5 @@ class Game < ApplicationRecord
     end
 
     return subset
-  end
-
-  # Callbacks
-
-  def check_for_empty_custom_deck_name
-    self.custom_deck_name = self.custom_deck_name.blank? ? nil : self.custom_deck_name
   end
 end
