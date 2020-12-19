@@ -1,65 +1,44 @@
 # Setup
 TO DO
-- install redis
-- Uninstall Yarn bootstrap (since we're loading it from CDN now)
+- Figure out issue with compiling Bootstrap so we don't have to fetch from CDN
 ## Run Locally
 ```
-# dev env
+git clone git@github.com:pei-liu/codenames.git
+bundle && yarn install
 rails s
-
-# production env
-redis-server
-rails assets:precompile && RAILS_ENV=production bundle exec rails s
 ```
-## Using Docker Locally
+Visit localhost:3000
+## Heroku
+### Setup
 ```
-# Create Postgres container
-docker run --name codenames-pg \
-            -e POSTGRES_USER=postgres \
-            -e POSTGRES_PASSWORD=postgres \
-            -p 5432:5432 \
-            -d postgres
-
-# Create Redis container
-docker run --name codenames-redis \
-            -p 6379:6379 \
-            -d redis
-
-# Build docker image
-docker build . -t codenames
-
-# Create app container
-docker run --name codenames-web \
-            -e DATABASE_USERNAME=postgres \
-            -e DATABASE_PASSWORD=postgres \
-            -e REDIS_URL=redis://172.17.0.1:6379/1 \
-            -p 3000:3000 \
-            codenames
-
-# Connect to app container to vew logs
-sudo docker exec -it codenames-web bash
-cat /application/logs/production.log
+heroku login
+heroku git:remote -a codenames2-staging && git remote rename heroku heroku-staging
+heroku git:remote -a codenames2 && git remote rename heroku heroku-production
 ```
 
-# Pushing to Heroku
-https://devcenter.heroku.com/articles/container-registry-and-runtime
+### Commands
+Commands must specify the remote (e.g. `heroku open -r heroku-staging`)
 
+Alternatively, set the default remote: `git config heroku.remote heroku-staging`.
+
+See Heroku's [multiple env doc](https://devcenter.heroku.com/articles/multiple-environments).
 ```
-# Build the image and push to Container Registry:
-heroku container:login
-heroku container:push web
-
-# Then release the image to your app:
-heroku container:release web
-
-# Now open the app in your browser:
+# Open app
 heroku open
-```
 
-Note: I can't figure out how to get `heroku run rails c` to work with Docker. If you need to access the rails console, first deploy to Heroku using Git rather than Docker.
+# Deploy local `staging` branch to `heroku-staging` remote
+git push heroku-staging staging:master
+
+# Deploy to production
+git push heroku-production master
+
+# Run commands on heroku remote
+heroku run rake db:migrate
+heroku run rails c
+```
 
 # Learnings
-* How to Dockerize Rails and deploy to Heroku
+* How to Dockerize Rails and deploy to Heroku (ended up ripping out Docker b/c I couldn't execute remote commands like migrations and `rails c`)
 * How to use ActionCable
 * How to set up React in Rails using webpacker
 
