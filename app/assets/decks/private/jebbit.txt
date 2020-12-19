@@ -14,7 +14,6 @@ library
 michael marcus
 newsletter
 phone booth
-rabbit
 sales
 series b
 shoshin

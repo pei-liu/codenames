@@ -69,10 +69,10 @@ class Game < ApplicationRecord
     cards = default_deck.sample(25)
 
     if self.custom_deck
-      # Replace some cards with special cards.
-      cards.shift(4)
-      custom_deck = self.custom_deck.cards - cards # ensure there are no duplicates from the custom deck
-      cards.concat(custom_deck.sample(4))
+      # Replace some default cards with custom cards.
+      cards.shift(self.custom_deck.num_cards_included)
+      custom_deck_cards = self.custom_deck.cards - cards # ensure there are no duplicates from the custom deck
+      cards.concat(custom_deck_cards.sample(self.custom_deck.num_cards_included))
       cards.shuffle!
     end
 
