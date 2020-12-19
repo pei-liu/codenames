@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_06_190012) do
+ActiveRecord::Schema.define(version: 2020_12_19_160917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "decks", force: :cascade do |t|
+    t.string "name", null: false
+    t.boolean "is_private", null: false
+    t.integer "num_cards_included", default: 4, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name", "is_private"], name: "index_decks_on_name_and_is_private", unique: true
+  end
 
   create_table "games", force: :cascade do |t|
     t.string "identifier", null: false
@@ -22,8 +31,11 @@ ActiveRecord::Schema.define(version: 2020_12_06_190012) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "seen_cards", default: ""
-    t.string "custom_deck_name"
+    t.bigint "custom_deck_id"
+    t.integer "num_cards_included_override"
+    t.index ["custom_deck_id"], name: "index_games_on_custom_deck_id"
     t.index ["identifier"], name: "index_games_on_identifier", unique: true
   end
 
+  add_foreign_key "games", "decks", column: "custom_deck_id"
 end
