@@ -89,10 +89,14 @@ RSpec.describe Game, type: :model do
       end
     end
 
-    context 'with custom_deck param' do
+    context 'with custom_deck' do
+      before do
+        game.update(custom_deck_name: 'custom')
+      end
+
       it 'includes 4 cards from the custom deck' do
         FakeFS do
-          game.set_new_board('custom')
+          game.set_new_board
           expect(game.state['board'].count{ |c| c['title'].match(/CUSTOM/)}).to eq(4)
         end
       end
@@ -108,7 +112,7 @@ RSpec.describe Game, type: :model do
 
           create_test_decks(default_deck_content, custom_deck_content)
 
-          game.set_new_board('custom')
+          game.set_new_board
           expect(game.cards.uniq.count).to eq(25)
         end
       end
