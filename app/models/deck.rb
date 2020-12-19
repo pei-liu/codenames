@@ -4,6 +4,8 @@ class Deck < ApplicationRecord
   validates_presence_of :name
   validates_uniqueness_of :is_private, scope: :name
 
+  scope :where_private, -> { where(is_private: true) }
+
   def cards
     path = if is_private
              Rails.root.join("app/assets/decks/private/#{name}.txt")
@@ -14,4 +16,3 @@ class Deck < ApplicationRecord
     File.read(path).split("\n").map(&:upcase)
   end
 end
-

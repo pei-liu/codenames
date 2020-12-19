@@ -9,7 +9,7 @@ class Game < ApplicationRecord
     presence: true,
     inclusion: { in: %w(active inactive), message: "%{value} is not a valid status" }
 
-  belongs_to :custom_deck, class_name: 'Deck'
+  belongs_to :custom_deck, class_name: 'Deck', optional: true
 
   def set_new_board
     @seen_cards = self.seen_cards.split(',')
