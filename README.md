@@ -31,15 +31,25 @@ See Heroku's [multiple env doc](https://devcenter.heroku.com/articles/multiple-e
 # Open app
 heroku open
 
-# Deploy local `staging` branch to `heroku-staging` remote
-git push heroku-staging staging:master
-
-# Deploy to production
-git push heroku-production master
-
 # Run commands on heroku remote
 heroku run rake db:migrate
 heroku run rails c
+```
+
+### Deploying
+```
+# Deploy local branch to `heroku-staging` remote
+git push heroku-staging <my_branch>:master
+
+# Deploy to production
+# Updating the `master` branch automatically triggers a deploy to production.
+# Manual production deploy:
+git push heroku-production master
+
+# Post-deploy commands
+heroku run rake db:migrate
+heroku run rake db:seed
+heroku run rake util:deck_and_game_cleanup
 ```
 
 # Learnings
