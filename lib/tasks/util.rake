@@ -4,7 +4,7 @@ namespace :util do
   task check_dups_within_decks: :environment do
     dups_found = false
     folder_path = Rails.root.join("app/assets/decks")
-    deck_paths = Dir["#{folder_path}/*"]
+    deck_paths = Dir["#{folder_path}/*.txt"]
     deck_paths.each do |deck_path|
       file_name = deck_path.split('/').last
       cards = File.read(deck_path).split("\n").map(&:upcase)
@@ -26,10 +26,8 @@ namespace :util do
   # rake util:check_dups_between_decks
   task check_dups_between_decks: :environment do
     dups_found = false
-
     folder_path = Rails.root.join("app/assets/decks")
-    custom_deck_paths = Dir["#{folder_path}/*"].reject{|p| p.split('/').last == 'default.txt'}
-
+    custom_deck_paths = Dir["#{folder_path}/**/*.txt"].reject{|p| File.basename(p) == 'default.txt'}
     default_cards = File.read("#{folder_path}/default.txt").split("\n").map(&:upcase)
 
     custom_deck_paths.each do |custom_deck_path|

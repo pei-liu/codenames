@@ -15,7 +15,6 @@ cardinal
 herb
 six flags
 roth
-tap
 einhorn
 hijinx
 jalopy
@@ -27,5 +26,4 @@ battlestar
 water ride
 the butts
 pi
-pie
 karaoke

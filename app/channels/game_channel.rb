@@ -8,6 +8,7 @@ class GameChannel < ApplicationCable::Channel
     payload = {}
 
     # TO DO: Figure out how to have a separate method to handle new games vs board updates
+
     if data['msg'] == 'newGame'
       game.set_new_board
       payload['is_new_game'] = true

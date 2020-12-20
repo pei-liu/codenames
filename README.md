@@ -1,5 +1,9 @@
 # Setup
 TO DO
+- Write/fix tests from adding `decks` table
+- Create public custom decks
+- Utilize `game.num_cards_included_override`
+- Create deploy script that runs migrations and seed file
 - Figure out the issue I had installing Bootstrap and Jquery using yarn ([removal commit](https://github.com/pei-liu/codenames/commit/20ef8933d49f01a7c7d395b755c827bf2f68bb2d)). Currently fetching libraries from CDN.
 
 ## Run Locally
