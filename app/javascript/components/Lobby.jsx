@@ -18,7 +18,7 @@ class Lobby extends React.Component {
   }
 
   componentDidMount() {
-    if(this.inSecretLobby()) { this.getCustomDecks(); }
+    this.getCustomDecks();
   }
 
   getCustomDecks() {
@@ -26,7 +26,8 @@ class Lobby extends React.Component {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
     }
-    fetch(`/api/custom_decks`, requestOptions)
+
+    fetch(`/api/decks?include_private_decks=${this.inSecretLobby()}`, requestOptions)
       .then(res => res.json())
       .then(
         (result) => {
@@ -85,7 +86,7 @@ class Lobby extends React.Component {
 
   renderDeckPickerDropdownOptions() {
     let options = [<option key='-1' value='-1'>Choose Deck</option>];
-
+console.log(this.state.customDecks)
     this.state.customDecks.forEach((deck) => {
       options.push(
         <option key={deck.id} value={deck.id}>{deck.name}</option>
@@ -99,17 +100,17 @@ class Lobby extends React.Component {
     let adminMsg;
     let customDeckDropdown;
     if (this.inSecretLobby()) {
-      adminMsg = (<p>Welcome back, boss.</p>)
-
-      customDeckDropdown = (
-        <Form.Group>
-          <Form.Label>Custom Deck</Form.Label>
-          <Form.Control value={this.state.selectedCustomDeckId} onChange={this.onCustomDeckSelect} as="select">
-            {this.renderDeckPickerDropdownOptions()}
-          </Form.Control>
-        </Form.Group>
-      );
+      adminMsg = (<p>Welcome back, boss.</p>);
     }
+
+    customDeckDropdown = (
+      <Form.Group>
+        <Form.Label>Include special cards (optional)</Form.Label>
+        <Form.Control value={this.state.selectedCustomDeckId} onChange={this.onCustomDeckSelect} as="select">
+          {this.renderDeckPickerDropdownOptions()}
+        </Form.Control>
+      </Form.Group>
+    );
 
     return (
       <div id='lobby-page-container' className="primary-color d-flex align-items-center justify-content-center">

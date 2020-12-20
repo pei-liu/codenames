@@ -1,10 +1,14 @@
 class Deck < ApplicationRecord
-  DEFAULT_DECK = self.find_by(name: 'default')
+  DEFAULT = 'default'
+  DEFAULT_DECK = self.find_by(name: DEFAULT)
+
+  has_many :games, foreign_key: :custom_deck_id, dependent: :destroy
 
   validates_presence_of :name
   validates_uniqueness_of :is_private, scope: :name
 
-  scope :where_private, -> { where(is_private: true) }
+  scope :where_custom, -> { where.not(name: DEFAULT) }
+  scope :where_public, -> { where(is_private: false) }
 
   def cards
     path = if is_private
