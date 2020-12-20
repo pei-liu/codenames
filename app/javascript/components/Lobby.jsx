@@ -10,6 +10,7 @@ class Lobby extends React.Component {
       identifier: '',
       customDecks: [], // arr of strings
       selectedCustomDeckId: '',
+      errorMsg: '',
     }
 
     this.gameIdInputChange = this.gameIdInputChange.bind(this);
@@ -19,6 +20,10 @@ class Lobby extends React.Component {
 
   componentDidMount() {
     this.getCustomDecks();
+    const { errorMsg } = this.props.location;
+    this.setState({
+      errorMsg
+    })
   }
 
   getCustomDecks() {
@@ -86,7 +91,7 @@ class Lobby extends React.Component {
 
   renderDeckPickerDropdownOptions() {
     let options = [<option key='-1' value='-1'>Choose Deck</option>];
-console.log(this.state.customDecks)
+
     this.state.customDecks.forEach((deck) => {
       options.push(
         <option key={deck.id} value={deck.id}>{deck.name}</option>
@@ -99,10 +104,18 @@ console.log(this.state.customDecks)
   render() {
     let adminMsg;
     let customDeckDropdown;
+    let errorMsg;
     if (this.inSecretLobby()) {
       adminMsg = (<p>Welcome back, boss.</p>);
     }
 
+    if (this.state.errorMsg) {
+      errorMsg = (
+        <div class="alert alert-danger" role="alert">
+          {this.state.errorMsg}
+        </div>
+      )
+    }
     customDeckDropdown = (
       <Form.Group>
         <Form.Label>Include special cards (optional)</Form.Label>
@@ -117,6 +130,7 @@ console.log(this.state.customDecks)
         <div className="jumbotron jumbotron-fluid bg-transparent">
           <div className="container secondary-color">
             {adminMsg}
+            {errorMsg}
             <p className="lead">
               Enter Game ID to join or create game!
             </p>

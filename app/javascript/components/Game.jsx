@@ -67,14 +67,28 @@ class Game extends React.Component {
     };
 
     fetch(`/api/${this.props.match.params.gameId}`, requestOptions)
-      .then(res => res.json())
+      .then(
+        (res) => {
+          if (res.ok) {
+            return res.json();
+          } else if (res.status === 404) {
+            return Promise.reject('error 404');
+          } else {
+            return Promise.reject('some other error: ' + response.status)
+          }
+        }
+      )
       .then(
         (result) => {
           this.setState({ gameState: result.state, customDeck: result.custom_deck });
         },
         (error) => {
-          console.log(error);
-          // TO DO handle error (esp. 404)
+          if (error === 'error 404') {
+            this.props.history.push({
+              pathname: '/',
+              errorMsg: `Game "${this.props.match.params.gameId}" doesn't exist. Please check spelling or create new game.`
+            });
+          }
         }
       )
   }

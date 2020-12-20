@@ -24,8 +24,7 @@ module API
       if game
         render status: 200, json: { custom_deck: game.custom_deck&.name , state: game.state }
       else
-        # TO DO
-        # 404
+        render status: 404, body: nil
       end
     end
 
