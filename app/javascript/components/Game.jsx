@@ -1,17 +1,23 @@
 import React from "react";
 import ReactModal from 'react-modal';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import _ from "lodash";
 import actionCable from 'actioncable';
 
 import Board from "./Board";
 import ScoreTracker from "./ScoreTracker";
 
+// TODO: Refactor template code to use react-bootstrap classes (<Button/>, <Form/>)
+// TODO: See about using react-bootstrap modal instead of react-modal
 class Game extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       role: 'player', // valid: [player, spymaster],
+      customDecks: [],
+      selectedCustomDeckId: '',
       customDeck: null,
       gameState: {
         turn_order: '', // valid: [red, blue]
@@ -24,12 +30,13 @@ class Game extends React.Component {
     this.onEndTurnBtnClick = this.onEndTurnBtnClick.bind(this);
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.onCustomDeckSelect = this.onCustomDeckSelect.bind(this);
     this.onNewGameBtnClick = this.onNewGameBtnClick.bind(this);
     this.onCardSelect = this.onCardSelect.bind(this);
   }
 
   componentDidMount() {
-
+    this.getCustomDecks();
     const webSocketUrl = $('#web-socket-url').textContent
     this.cable = actionCable.createConsumer(webSocketUrl);
     this.gameChannel = this.cable.subscriptions.create(
@@ -55,6 +62,28 @@ class Game extends React.Component {
     }
 
     this.setWinnerBgColor();
+  }
+
+  getCustomDecks() {
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    }
+
+    fetch(`/api/decks?game_identifier=${this.props.match.params.gameId}`, requestOptions)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            customDecks: JSON.parse(result.decks),
+            selectedCustomDeckId: -1,
+          });
+        },
+        (error) => {
+          console.log(error);
+          // TO DO handle error
+        }
+      );
   }
 
   setGameState() {
@@ -232,6 +261,11 @@ class Game extends React.Component {
     this.setState({ showModal: false });
   }
 
+  onCustomDeckSelect(event) {
+    event.preventDefault();
+    this.setState({ selectedCustomDeckId: event.target.value });
+  }
+
   renderChangeDeckModal() {
     const customStyles = {
       content : {
@@ -243,6 +277,15 @@ class Game extends React.Component {
         transform             : 'translate(-50%, -50%)'
       }
     };
+
+    let deckPickerDropdownOptions = [<option key='-1' value='-1'>Choose Deck</option>];
+
+    this.state.customDecks.forEach((deck) => {
+      deckPickerDropdownOptions.push(
+        <option key={deck.id} value={deck.id}>{deck.name}</option>
+      );
+    })
+
     return (
       <ReactModal
         isOpen={this.state.showModal}
@@ -251,6 +294,17 @@ class Game extends React.Component {
         ariaHideApp={false}
       >
         <h3>Hello</h3>
+        <Form onSubmit={this.onSubmit}>
+          <Form.Group>
+            <Form.Label>Include special cards (optional)</Form.Label>
+            <Form.Control value={this.state.selectedCustomDeckId} onChange={this.onCustomDeckSelect} as="select">
+              {deckPickerDropdownOptions}
+            </Form.Control>
+          </Form.Group>
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
         <button
           onClick={this.closeModal}
           type="button"
@@ -264,7 +318,6 @@ class Game extends React.Component {
   }
 
   render() {
-    console.log(this.state)
     let roleTogglePlayerClass = this.state.role === 'player' ? 'active' : '';
     let roleToggleSpymasterClass = this.state.role === 'spymaster' ? 'active' : '';
 
