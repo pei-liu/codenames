@@ -66,8 +66,18 @@ $card-border-color: #33312F;
       display: flex;
       justify-content: flex-end;
 
-      #new-game-btn {
+      #role-toggle-group {
+        .btn {
+          z-index: 0; // prevents active toggle from appearing over open modal
+        }
+      }
+
+      #change-deck-btn {
         margin-left: 20px;
+      }
+
+      #new-game-btn {
+        margin-left: 5px;
       }
     }
   }

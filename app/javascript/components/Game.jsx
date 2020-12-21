@@ -1,9 +1,10 @@
 import React from "react";
+import ReactModal from 'react-modal';
 import _ from "lodash";
 import actionCable from 'actioncable';
+
 import Board from "./Board";
 import ScoreTracker from "./ScoreTracker";
-
 
 class Game extends React.Component {
   constructor(props) {
@@ -16,15 +17,19 @@ class Game extends React.Component {
         turn_order: '', // valid: [red, blue]
         board: [],
       },
+      showModal: false
     }
 
     this.onRoleToggleChange = this.onRoleToggleChange.bind(this);
     this.onEndTurnBtnClick = this.onEndTurnBtnClick.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
     this.onNewGameBtnClick = this.onNewGameBtnClick.bind(this);
     this.onCardSelect = this.onCardSelect.bind(this);
   }
 
   componentDidMount() {
+
     const webSocketUrl = $('#web-socket-url').textContent
     this.cable = actionCable.createConsumer(webSocketUrl);
     this.gameChannel = this.cable.subscriptions.create(
@@ -134,13 +139,16 @@ class Game extends React.Component {
     this.broadcastNewState(newGameState);
   }
 
+  onChangeDeckBtnClick() {
+    this.openModal();
+  }
+
   onNewGameBtnClick() {
     this.gameChannel.send({ msg: 'newGame' });
   }
 
   onRoleToggleChange(event) {
     event.preventDefault();
-    console.log('onRoleToggleChange: ', event.target.value)
     this.setState({ role: event.target.value })
   }
 
@@ -212,6 +220,49 @@ class Game extends React.Component {
     return selectedCard === undefined ? true : false;
   }
 
+  openModal() {
+    this.setState({ showModal: true });
+  }
+
+  afterOpenModal() {
+    // references are now sync'd and can be accessed.
+  }
+
+  closeModal(){
+    this.setState({ showModal: false });
+  }
+
+  renderChangeDeckModal() {
+    const customStyles = {
+      content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)'
+      }
+    };
+    return (
+      <ReactModal
+        isOpen={this.state.showModal}
+        contentLabel="Example Modal"
+        style={customStyles}
+        ariaHideApp={false}
+      >
+        <h3>Hello</h3>
+        <button
+          onClick={this.closeModal}
+          type="button"
+          id="new-game-btn"
+          className="btn btn-secondary"
+        >
+          Cancel
+        </button>
+      </ReactModal>
+    )
+  }
+
   render() {
     console.log(this.state)
     let roleTogglePlayerClass = this.state.role === 'player' ? 'active' : '';
@@ -235,6 +286,7 @@ class Game extends React.Component {
 
     return (
       <div id='game-page-container'>
+        { this.renderChangeDeckModal() }
         <div id='top-controls'>
           <ScoreTracker redScore={this.remainingCards('red')} blueScore={this.remainingCards('blue')} />
           <div id='middle-msg'>
@@ -282,6 +334,14 @@ class Game extends React.Component {
                 /> Spymaster
               </label>
             </div>
+            <button
+              onClick={this.openModal}
+              type="button"
+              id="change-deck-btn"
+              className="btn btn-primary"
+            >
+              Game Options
+            </button>
             <button
               onClick={this.onNewGameBtnClick}
               type="button"
