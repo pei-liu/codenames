@@ -4,11 +4,15 @@ import Button from 'react-bootstrap/Button';
 
 const DeckForm = props => {
   useEffect(() => {
-
+    {console.log(document)}
   }, [])
 
+  function getLogo(){
+    ReactDOM.findDOMNode()
+  }
+
   const [wordList, setWordList] = useState([])
-  
+
   return(
     <div id='lobby-page-container' className="primary-color d-flex align-items-center justify-content-center">
       <div className="jumbotron jumbotron-fluid bg-transparent">

@@ -305,7 +305,15 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var DeckForm = function DeckForm(props) {
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {}, []);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    {
+      console.log(document);
+    }
+  }, []);
+
+  function getLogo() {
+    ReactDOM.findDOMNode();
+  }
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
       _useState2 = _slicedToArray(_useState, 2),
@@ -1093,7 +1101,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["BrowserRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
   id: "logo"
 }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-  to: "/"
+  to: "/",
+  id: "logoLink"
 }, "Codenames")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
   path: "/",
   exact: true,
