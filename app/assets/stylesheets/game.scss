@@ -6,6 +6,13 @@ $assassin-card-color: #33312F;
 $card-text-color: #33312F;
 $card-border-color: #33312F;
 
+#lobby-page-container {
+  .flexed-buttons{
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
 #game-page-container {
   min-width: 700px;
   margin-left: 20px;

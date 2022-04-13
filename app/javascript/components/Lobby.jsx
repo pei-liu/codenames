@@ -118,7 +118,7 @@ class Lobby extends React.Component {
     }
     customDeckDropdown = (
       <Form.Group>
-        <Form.Label>Include special cards (optional)</Form.Label>
+        <Form.Label>Include special cards (optional) </Form.Label>
         <Form.Control value={this.state.selectedCustomDeckId} onChange={this.onCustomDeckSelect} as="select">
           {this.renderDeckPickerDropdownOptions()}
         </Form.Control>
@@ -134,14 +134,25 @@ class Lobby extends React.Component {
             <p className="lead">
               Enter Game ID to join or create game!
             </p>
-            <Form onSubmit={this.onSubmit}>
+            <Form onSubmit={this.onSubmit} className="lobby-form">
               <Form.Group>
                 <Form.Control onChange={this.gameIdInputChange} type="text" placeholder="Game ID" />
               </Form.Group>
               {customDeckDropdown}
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
+              <div className="flexed-buttons">
+                <Button variant="primary" type="submit">
+                  Submit
+                </Button>
+                {this.inSecretLobby() ?
+                    <a href="/newdeck">
+                      <Button type="button" variant="secondary">
+                        Create New Deck
+                      </Button>
+                    </a>
+                    : null
+                }
+              </div>
+              
             </Form>
           </div>
         </div>

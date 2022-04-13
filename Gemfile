@@ -29,7 +29,6 @@ gem 'redis', '~> 4.0'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'awesome_print'
-gem 'yarn'
 
 group :development, :test do
   gem 'pry'

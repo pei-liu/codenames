@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import Lobby from "../components/Lobby";
 import Game from "../components/Game";
+import DeckForm from "../components/DeckForm";
 
 import Snowfall from 'react-snowfall'
 
@@ -11,6 +12,7 @@ export default (
     <Switch>
       <Route path="/" exact component={Lobby} />
       <Route path="/secretlobby" exact component={Lobby} />
+      <Route path="/newdeck" exact component={DeckForm}/>
       <Route path="/:gameId" component={Game} />
     </Switch>
 
