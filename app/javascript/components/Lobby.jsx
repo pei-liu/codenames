@@ -1,6 +1,7 @@
 import React from "react";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { Link } from "react-router-dom";
 
 class Lobby extends React.Component {
   constructor(props) {
@@ -144,12 +145,12 @@ class Lobby extends React.Component {
                   Submit
                 </Button>
                 {this.inSecretLobby() ?
-                    <a href="/newdeck">
-                      <Button type="button" variant="secondary">
+                  <Link to='/newdeck'>
+                    <Button type="button" variant="secondary">
                         Create New Deck
-                      </Button>
-                    </a>
-                    : null
+                    </Button>
+                  </Link>
+                  : null
                 }
               </div>
               

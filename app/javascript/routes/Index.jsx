@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useParams} from "react";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import Lobby from "../components/Lobby";
 import Game from "../components/Game";
