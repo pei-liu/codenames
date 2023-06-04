@@ -13,6 +13,9 @@ bundle && yarn install
 rails s
 ```
 Visit localhost:3000
+
+Notes:
+- Try using Node 16 if you run into an error
 ## Heroku
 ### Setup
 ```
