@@ -5,7 +5,7 @@ test:
   adapter: test
 
 production:
-  adapter: redis
-  # url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
-  url: <%= ENV.fetch("REDIS_URL") %>
-  channel_prefix: codenames_production
+  # adapter: redis
+  adapter: postgres
+  # url: <%= ENV['REDIS_URL'] %>
+  # channel_prefix: codenames_production
