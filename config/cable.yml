@@ -6,6 +6,7 @@ test:
 
 production:
   # adapter: redis
-  adapter: postgres
   # url: <%= ENV['REDIS_URL'] %>
   # channel_prefix: codenames_production
+  adapter: postgres
+  url: <%= ENV['DATABASE_URL'] %>
