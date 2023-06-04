@@ -14,6 +14,6 @@ export default (
       <Route path="/:gameId" component={Game} />
     </Switch>
 
-    <Snowfall />
+    {/* <Snowfall /> */}
   </Router>
 );
