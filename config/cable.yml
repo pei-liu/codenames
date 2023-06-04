@@ -9,4 +9,3 @@ production:
   # url: <%= ENV['REDIS_URL'] %>
   # channel_prefix: codenames_production
   adapter: postgresql
-  # url: <%= ENV['DATABASE_URL'] %>
