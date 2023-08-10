@@ -41,12 +41,7 @@ heroku run rails c
 
 ### Deploying
 ```
-# Deploy local branch to `heroku-staging` remote
-git push heroku-staging <my_branch>:master
-
 # Deploy to production
-# Updating the `master` branch automatically triggers a deploy to production.
-# Manual production deploy:
 git push heroku-production master
 
 # Post-deploy commands
