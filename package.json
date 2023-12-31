@@ -28,5 +28,11 @@
   },
   "engines": {
     "node": "16.x"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "testEnvironment": "jsdom"
   }
 }
