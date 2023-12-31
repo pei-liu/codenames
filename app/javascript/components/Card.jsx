@@ -1,6 +1,6 @@
-import React from "react";
+import React, { PureComponent } from "react";
 
-class Card extends React.Component {
+class Card extends React.PureComponent {
   constructor(props) {
     super(props);
     this.onCardSelect = this.onCardSelect.bind(this);
