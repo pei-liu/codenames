@@ -1,31 +1,25 @@
-import React, { PureComponent } from "react";
+import React from "react";
 
-class Card extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.onCardSelect = this.onCardSelect.bind(this);
-  }
+const Card = function(props) {
+  const selectedClass = props.isSelected ? 'selected' : ''
+  const roleClass = props.role;
+  const gameOverClass = props.gameWinner ? 'game-over' : ''
 
-  onCardSelect() {
-    if(!this.props.isSelected && this.props.role === 'player') {
-      this.props.onCardSelect(this.props.index);
+  function onCardSelect() {
+    if (!props.isSelected && props.role === 'player') {
+      props.onCardSelect(props.index);
     }
   }
 
-  render() {
-    const selectedClass = this.props.isSelected ? 'selected' : ''
-    const roleClass = this.props.role;
-    const gameOverClass = this.props.gameWinner ? 'game-over' : ''
-    return (
-      <div className='card-container' onClick={this.onCardSelect}>
-        <div className={`card-sub-container ${selectedClass} ${roleClass}`}>
-          <div className={`card-text-container ${this.props.type}`}>
-            <span className={`card-text ${gameOverClass}`}>{this.props.title}</span>
-          </div>
+  return (
+    <div className='card-container' onClick={onCardSelect}>
+      <div className={`card-sub-container ${selectedClass} ${roleClass}`}>
+        <div className={`card-text-container ${props.type}`}>
+          <span className={`card-text ${gameOverClass}`}>{props.title}</span>
         </div>
       </div>
-    );
-  }
+    </div>
+  )
 }
 
-export default Card;
+export default React.memo(Card)
